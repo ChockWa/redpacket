@@ -1,5 +1,6 @@
 package com.hdh.redpacket.user.service;
 
+import com.hdh.redpacket.core.exception.SysException;
 import com.hdh.redpacket.user.dao.UserMapper;
 import com.hdh.redpacket.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ public class UserService {
 
     public List<User> getUserList(){
         List<User> list = userMapper.getList();
-        throw new RuntimeException("出错啦！！");
+        return list;
+//        throw SysException.NEW_EXCEPTION_INSTANCE_FAILED;
     }
 }

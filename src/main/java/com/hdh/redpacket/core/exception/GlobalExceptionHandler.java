@@ -1,10 +1,10 @@
 package com.hdh.redpacket.core.exception;
 
 
-import com.hdh.redpacket.core.response.ResponseEntity;
+import com.hdh.redpacket.core.response.Result;
+import com.hdh.redpacket.core.utils.SpringContextUtil;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value=Exception.class)
-    public ResponseEntity exceptionHandle(HttpServletRequest request, Exception exception) throws Exception{
+    public Result exceptionHandle(HttpServletRequest request, Exception exception) throws Exception{
 
-        if(exception != null){
-            ResponseEntity responseEntity = new ResponseEntity();
-            responseEntity.setMsg(exception.getMessage());
-            return responseEntity;
+        if(exception instanceof BizException){
+            SpringContextUtil.getResult().setCode(((BizException) exception).code);
+            SpringContextUtil.getResult().setMsg(((BizException) exception).msg);
+            return SpringContextUtil.getResult();
         }
-        return new ResponseEntity();
+        SpringContextUtil.getResult().setMsg(exception.getMessage());
+        return SpringContextUtil.getResult();
     }
 }
