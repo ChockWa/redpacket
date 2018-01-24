@@ -24,4 +24,11 @@ public class UserController {
         Result result = Result.SUCCESS.setData("list",list);
         return result;
     }
+
+    @RequestMapping(value = "/getCount")
+    @ResponseBody
+    public Result getCount(){
+        int count = userService.getCount();
+        return Result.SUCCESS.setData("count",count);
+    }
 }

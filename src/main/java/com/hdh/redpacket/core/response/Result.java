@@ -71,6 +71,11 @@ public class Result {
     // 成功
     public static Result SUCCESS = new Result(0,"");
 
+    // 失败
+    public static Result FAIL(int code,String msg){
+        return new Result(code, msg);
+    }
+
     public int getCode() {
         return code;
     }

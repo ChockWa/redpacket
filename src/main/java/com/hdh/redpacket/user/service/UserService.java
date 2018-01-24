@@ -27,4 +27,9 @@ public class UserService {
         return list;
 //        throw SysException.NEW_EXCEPTION_INSTANCE_FAILED;
     }
+
+    public int getCount(){
+        System.out.println(1);
+        return userMapper.getCount();
+    }
 }

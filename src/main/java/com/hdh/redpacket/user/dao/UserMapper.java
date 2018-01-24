@@ -13,4 +13,7 @@ public interface UserMapper extends BaseMapper<User>{
     @Select("select id,user_name userName,password from user")
     List<User> getList();
 
+    @Select("select count(*) from acc_user")
+    int getCount();
+
 }
