@@ -1,13 +1,16 @@
 package com.hdh.redpacket.core.response;
 
-import lombok.Data;
+import com.hdh.redpacket.core.utils.BeanUtils;
+import com.hdh.redpacket.core.utils.TypeUtil;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 响应返回结果类
- * @param <T>
  */
-@Data
-public class Result<T> {
+public class Result {
 
     public static final int SUCCESS_CODE = 0;
 
@@ -16,7 +19,7 @@ public class Result<T> {
 
     private String msg = "";
 
-    private T data;
+    private Map<String,Object> data = new HashMap<>();
 
     /**
      * 只返回错误码
@@ -28,36 +31,41 @@ public class Result<T> {
     }
 
     /**
-     * 只有返回数据的(验证成功)
-     *
-     * @param data data
-     */
-    public Result(T data) {
-        this.data = data;
-    }
-
-    /**
      * 只有错误码和错误信息的
-     *
-     * @param code code
-     * @param msg    msg
+     * @param code
+     * @param msg
      */
     public Result(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    /**
-     * 全部参数
-     *
-     * @param code code
-     * @param msg    msg
-     * @param data       data
-     */
-    public Result(int code, String msg, T data) {
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
+    public Map<String,Object> getData(){
+        return this.data;
+    }
+
+    public Object getData(String key){
+        return this.data.get(key);
+    }
+
+    public Result setData(String key, Object value) {
+        if (value == null || value instanceof Map || TypeUtil.isBaseType(value)) {
+            this.data.put(key, value);
+        } else if (value.getClass().isArray()) {
+            this.data.put(key, BeanUtils.beanToMapList((Object[]) value));
+        } else if (value instanceof List) {
+            this.data.put(key, BeanUtils.beanToMapList((List<?>) value));
+        } else {
+            this.data.put(key, BeanUtils.beanToMap(value));
+        }
+        return this;
+    }
+
+    public Result setData(Object bean) {
+        if (bean != null) {
+            BeanUtils.copyToMap(bean, this.getData());
+        }
+        return this;
     }
 
     // 成功
@@ -79,11 +87,4 @@ public class Result<T> {
         this.msg = msg;
     }
 
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 }

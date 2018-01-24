@@ -7,20 +7,17 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SpringContextUtil implements ApplicationContextAware {
+public class ContextUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
-    private static Result result;
-
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringContextUtil.applicationContext = applicationContext;
-        result = new Result(Result.SUCCESS_CODE);
+        ContextUtil.applicationContext = applicationContext;
     }
 
     public static Result getResult() {
-        return result;
+        return new Result(Result.SUCCESS_CODE);
     }
 
 }
