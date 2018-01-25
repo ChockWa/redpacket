@@ -2,6 +2,8 @@ package com.hdh.redpacket.user.service;
 
 import com.hdh.redpacket.user.dao.UserMapper;
 import com.hdh.redpacket.user.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Service
 public class UserService {
+
+    Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserMapper userMapper;
@@ -28,8 +32,9 @@ public class UserService {
     }
 
     public int getCount(){
-        System.out.println(1);
-        return userMapper.getCount();
+        int count = userMapper.getCount();
+        logger.debug("数量:{}",count);
+        return count;
     }
 
     public User getByUid(String uid){
