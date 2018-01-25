@@ -4,9 +4,19 @@ public class User {
 
     private Long id;
 
+    private String uid;
+
     private String userName;
 
     private String password;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public Long getId() {
         return id;

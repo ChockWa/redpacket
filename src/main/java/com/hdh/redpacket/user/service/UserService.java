@@ -1,6 +1,5 @@
 package com.hdh.redpacket.user.service;
 
-import com.hdh.redpacket.core.exception.SysException;
 import com.hdh.redpacket.user.dao.UserMapper;
 import com.hdh.redpacket.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +30,9 @@ public class UserService {
     public int getCount(){
         System.out.println(1);
         return userMapper.getCount();
+    }
+
+    public User getByUid(String uid){
+        return userMapper.getByUid(uid);
     }
 }

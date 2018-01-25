@@ -16,4 +16,6 @@ public interface UserMapper extends BaseMapper<User>{
     @Select("select count(*) from acc_user")
     int getCount();
 
+    User getByUid(String uid);
+
 }

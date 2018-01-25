@@ -31,4 +31,10 @@ public class UserController {
         int count = userService.getCount();
         return Result.SUCCESS.setData("count",count);
     }
+
+    @RequestMapping(value = "/getByUid")
+    @ResponseBody
+    public Result getByUid(String uid){
+        return Result.SUCCESS.setData(userService.getByUid(uid));
+    }
 }
