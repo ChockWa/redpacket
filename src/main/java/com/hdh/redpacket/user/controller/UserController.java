@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -34,7 +35,7 @@ public class UserController {
 
     @RequestMapping(value = "/getByUid")
     @ResponseBody
-    public Result getByUid(String uid){
+    public Result getByUid(@NotNull String uid){
         return Result.SUCCESS.setData(userService.getByUid(uid));
     }
 }
