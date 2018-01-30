@@ -13,6 +13,7 @@ import java.util.List;
 
 
 @RestController
+@MustLogin(false)
 public class UserController {
 
     @Autowired
@@ -28,7 +29,6 @@ public class UserController {
 
     @RequestMapping(value = "/getCount")
     @ResponseBody
-    @MustLogin(false)
     public Result getCount(){
         int count = userService.getCount();
         return Result.SUCCESS.setData("count",count);
