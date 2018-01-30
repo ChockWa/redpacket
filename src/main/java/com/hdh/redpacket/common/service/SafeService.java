@@ -41,11 +41,11 @@ public class SafeService {
             b:for(String pattern : patterns){
                 if(pattern.equals(requestMappingUrl)){
                     if(checkLoginOrNot(method)){
-                        urlIsExist = true;
                         Long userId = validateAccessToken(accessToken);
                         user = getUserByUserId(userId);
-                        break a;
                     }
+                    urlIsExist = true;
+                    break a;
                 }
             }
         }

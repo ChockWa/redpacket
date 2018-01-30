@@ -1,5 +1,6 @@
 package com.hdh.redpacket.user.controller;
 
+import com.hdh.redpacket.core.annotation.MustLogin;
 import com.hdh.redpacket.core.model.Result;
 import com.hdh.redpacket.user.model.User;
 import com.hdh.redpacket.user.service.UserService;
@@ -27,6 +28,7 @@ public class UserController {
 
     @RequestMapping(value = "/getCount")
     @ResponseBody
+    @MustLogin(false)
     public Result getCount(){
         int count = userService.getCount();
         return Result.SUCCESS.setData("count",count);
