@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdh.redpacket.system.dao.AccessTokenMapper">
+  <resultMap id="BaseResultMap" type="com.hdh.redpacket.system.model.AccessToken">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="access_token" jdbcType="BIGINT" property="accessToken" />
+    <result column="session_key" jdbcType="BIGINT" property="sessionKey" />
+    <result column="expire_time" jdbcType="BIGINT" property="expireTime" />
+    <result column="renew_time" jdbcType="BIGINT" property="renewTime" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, user_id, access_token, session_key, expire_time, renew_time, create_time
+  </sql>
+
+    <select id="getByAccessToken" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from access_token
+        where access_token = #{accessToken}
+    </select>
+</mapper>

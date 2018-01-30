@@ -1,6 +1,6 @@
 package com.hdh.redpacket.user.controller;
 
-import com.hdh.redpacket.core.response.Result;
+import com.hdh.redpacket.core.model.Result;
 import com.hdh.redpacket.user.model.User;
 import com.hdh.redpacket.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +33,4 @@ public class UserController {
         return Result.SUCCESS.setData("count",count);
     }
 
-    @RequestMapping(value = "/getByUid")
-    @ResponseBody
-    public Result getByUid(@NotNull String uid){
-        return Result.SUCCESS.setData(userService.getByUid(uid));
-    }
 }

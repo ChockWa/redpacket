@@ -10,10 +10,10 @@
     uid, user_name
   </sql>
 
-    <select id="getByUid" resultMap="BaseResultMap">
+    <select id="getByUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from acc_user
-        where uid=#{uid}
+        where id=#{userId}
     </select>
 </mapper>

@@ -1,6 +1,6 @@
 package com.hdh.redpacket.core.utils;
 
-import com.hdh.redpacket.core.response.Result;
+import com.hdh.redpacket.core.model.Result;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

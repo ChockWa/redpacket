@@ -3,6 +3,7 @@ package com.hdh.redpacket.user.dao;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.hdh.redpacket.user.model.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -16,6 +17,6 @@ public interface UserMapper extends BaseMapper<User>{
     @Select("select count(uid) from acc_user")
     int getCount();
 
-    User getByUid(String uid);
+    User getByUserId(@Param("userId")Long userId);
 
 }

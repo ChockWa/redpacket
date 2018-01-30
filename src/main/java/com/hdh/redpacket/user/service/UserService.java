@@ -37,7 +37,8 @@ public class UserService {
         return count;
     }
 
-    public User getByUid(String uid){
-        return userMapper.getByUid(uid);
+    public User getByUserId(Long userId){
+        if(userId == null) return null;
+        return userMapper.getByUserId(userId);
     }
 }

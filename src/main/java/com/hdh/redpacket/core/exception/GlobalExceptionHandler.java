@@ -1,7 +1,7 @@
 package com.hdh.redpacket.core.exception;
 
 
-import com.hdh.redpacket.core.response.Result;
+import com.hdh.redpacket.core.model.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;

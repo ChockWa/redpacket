@@ -32,5 +32,6 @@ public class SpringUitl implements ApplicationContextAware {
         }catch (Exception e){
             logger.error("获取bean失败",e);
         }
+        return null;
     }
 }

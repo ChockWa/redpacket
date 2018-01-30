@@ -1,4 +1,4 @@
-package com.hdh.redpacket.core.response;
+package com.hdh.redpacket.core.model;
 
 import com.hdh.redpacket.core.utils.BeanUtils;
 import com.hdh.redpacket.core.utils.TypeUtil;
