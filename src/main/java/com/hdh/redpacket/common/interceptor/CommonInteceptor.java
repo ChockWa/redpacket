@@ -1,6 +1,7 @@
 package com.hdh.redpacket.common.interceptor;
 
 import com.hdh.redpacket.common.service.SafeService;
+import com.hdh.redpacket.system.service.AccessTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @Component
 public class CommonInteceptor implements HandlerInterceptor {
@@ -17,7 +19,7 @@ public class CommonInteceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        safeService.checkLoginHandle("aaaaa","bbbbbb");
+        safeService.checkLoginHandle(httpServletRequest.getParameter(AccessTokenService.DEFAULTE_TOKEN_NAME),httpServletRequest.getRequestURI());
         return true;
     }
 

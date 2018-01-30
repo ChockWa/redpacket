@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccessTokenService {
 
+    public static final String DEFAULTE_TOKEN_NAME = "accessToken";
+
     @Autowired
     private AccessTokenMapper accessTokenMapper;
 
