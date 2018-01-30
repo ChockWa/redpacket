@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 @Component
 public class CommonInteceptor implements HandlerInterceptor {
@@ -19,6 +18,7 @@ public class CommonInteceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+        // 校验是否登录
         safeService.checkLoginHandle(httpServletRequest.getParameter(AccessTokenService.DEFAULTE_TOKEN_NAME),httpServletRequest.getRequestURI());
         return true;
     }
