@@ -18,19 +18,6 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> getUserList(){
-//        List<User> list = userMapper.getList();
-        List<User> list = new ArrayList<>();
-        User user = new User();
-        user.setUserName("aaaa");
-        User user1 = new User();
-        user1.setUserName("bbbb");
-        list.add(user);
-        list.add(user1);
-        return list;
-//        throw SysException.NEW_EXCEPTION_INSTANCE_FAILED;
-    }
-
     public int getCount(){
         int count = userMapper.getCount();
         logger.debug("数量:{}",count);

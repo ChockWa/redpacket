@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class SafeService {
+public class InvokeService {
 
     @Autowired
     private AccessTokenService accessTokenService;
@@ -30,8 +30,7 @@ public class SafeService {
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
-    public User checkLoginHandle(String accessToken, String requestMappingUrl){
-        User user = null;
+    public void checkLoginHandle(String accessToken, String requestMappingUrl){
         boolean urlIsExist = false;
         Map<RequestMappingInfo, HandlerMethod> handlerMappingMap = requestMappingHandlerMapping.getHandlerMethods();
         a:for(Map.Entry<RequestMappingInfo, HandlerMethod> m : handlerMappingMap.entrySet()){
@@ -41,8 +40,7 @@ public class SafeService {
             b:for(String pattern : patterns){
                 if(pattern.equals(requestMappingUrl)){
                     if(checkLoginOrNot(method)){
-                        Long userId = validateAccessToken(accessToken);
-                        user = getUserByUserId(userId);
+                        validateAccessToken(accessToken);
                     }
                     urlIsExist = true;
                     break a;
@@ -52,7 +50,6 @@ public class SafeService {
         if(!urlIsExist){
             throw CommonException.METHOD_NOT_FIND_ERROR;
         }
-        return user;
     }
 
     /**
@@ -87,7 +84,7 @@ public class SafeService {
      * @param accessToken
      * @return
      */
-    private Long validateAccessToken(String accessToken){
+    private void validateAccessToken(String accessToken){
         if(StringUtils.isBlank(accessToken)){
             throw CommonException.USER_NOT_LOGIN_ERROR;
         }
@@ -99,7 +96,6 @@ public class SafeService {
         if(DateUtils.greater(new Date(),accessTokenDto.getExpireTime())){
             throw CommonException.TOKEN_EXPIRE;
         }
-        return accessTokenDto.getUserId();
     }
 
     private User getUserByUserId(Long userId){
