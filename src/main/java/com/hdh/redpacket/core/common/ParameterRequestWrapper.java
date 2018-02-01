@@ -31,6 +31,10 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
         return values[0];
     }
 
+    public Map<String, String[]> getParameters(){
+        return params;
+    }
+
     /**
      * 添加多个参数
      *
