@@ -17,6 +17,24 @@ public interface UserMapper extends BaseMapper<User>{
     @Select("select count(uid) from acc_user")
     int getCount();
 
-    User getByUserId(@Param("userId")Long userId);
+    /**
+     * 根据条件查询用户
+     * @param user
+     * @return
+     */
+    User getByQuery(User user);
 
+    /**
+     * 根据邮箱查询用户
+     * @param email
+     * @return
+     */
+    User getByEmail(@Param("email")String email);
+
+    /**
+     * 根据用户名查询用户
+     * @param name
+     * @return
+     */
+    User getByName(@Param("name")String name);
 }

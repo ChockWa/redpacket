@@ -22,7 +22,7 @@ public class UserController {
     @RequestMapping(value = "/getCount")
     @ResponseBody
     public Result getCount(@RequestParam Map map){
-        int count = userService.getCount();
+//        int count = userService.getCount();
         throw UserException.USER_ISEXIST_ERROR;
 //        return Result.SUCCESS.setData("count",count);
     }

@@ -15,7 +15,7 @@ public class AccessTokenService {
 
     public static final String DEFAULTE_TOKEN_NAME = "accessToken";
 
-    private final static long TOKEN_EXPIRE_TIME = 30 * 24 * 60 * 60; // 会话失效时间.
+    private final static long TOKEN_EXPIRE_TIME = 1 * 24 * 60 * 60; // 会话失效时间(1天).
 
     @Autowired
     private AccessTokenMapper accessTokenMapper;
