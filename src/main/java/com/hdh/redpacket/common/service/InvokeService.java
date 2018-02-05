@@ -98,10 +98,4 @@ public class InvokeService {
         }
     }
 
-    private User getUserByUserId(Long userId){
-        if(userId == null){
-            return null;
-        }
-        return userService.getByUserId(userId);
-    }
 }

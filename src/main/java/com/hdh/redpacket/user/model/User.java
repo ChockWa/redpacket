@@ -25,6 +25,28 @@ public class User {
 
     private String tel;
 
+    // 邀请人id
+    private Long inviteBy;
+
+    // 状态1-正常2-禁用
+    private Integer state;
+
+    public Long getInviteBy() {
+        return inviteBy;
+    }
+
+    public void setInviteBy(Long inviteBy) {
+        this.inviteBy = inviteBy;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
     public Long getId() {
         return id;
     }

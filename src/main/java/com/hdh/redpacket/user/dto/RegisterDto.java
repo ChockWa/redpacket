@@ -14,6 +14,28 @@ public class RegisterDto {
     // 图形验证码
     private String verifyCode;
 
+    // 性别
+    private Integer gender;
+
+    // 电话
+    private String tel;
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
     public String getEmail() {
         return email;
     }

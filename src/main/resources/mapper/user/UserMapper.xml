@@ -11,10 +11,12 @@
       <result column="gender" jdbcType="INTEGER" property="gender" />
       <result column="nickname" jdbcType="VARCHAR" property="nickname" />
       <result column="tel" jdbcType="VARCHAR" property="tel" />
+      <result column="invite_by" jdbcType="BIGINT" property="inviteBy" />
+      <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
 
     <sql id="Base_Column_List">
-        id, name, email, password, salt, register_time,gender,nickname,tel
+        id, name, email, password, salt, register_time,gender,nickname,tel,invite_by,state
     </sql>
 
     <select id="getByQuery" parameterType="com.hdh.redpacket.user.model.User" resultMap="BaseResultMap">
