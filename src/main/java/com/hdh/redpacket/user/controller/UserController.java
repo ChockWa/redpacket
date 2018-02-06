@@ -30,13 +30,4 @@ public class UserController {
 //        return Result.SUCCESS.setData("count",count);
     }
 
-    @RequestMapping(value = "/test")
-    @ResponseBody
-    public Result test() throws InterruptedException {
-        redisService.set("name","bbbbb",3000);
-        Thread.sleep(1000);
-        System.out.println(redisService.get("name"));
-        return Result.SUCCESS;
-    }
-
 }
