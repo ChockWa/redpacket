@@ -25,9 +25,6 @@ public class InvokeService {
     private AccessTokenService accessTokenService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
     public void checkLoginHandle(String accessToken, String requestMappingUrl){
