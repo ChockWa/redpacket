@@ -14,13 +14,5 @@ public class UserService {
 
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    @Autowired
-    private UserMapper userMapper;
-
-    public int getCount(){
-        int count = userMapper.getCount();
-        logger.debug("数量:{}",count);
-        return count;
-    }
 
 }

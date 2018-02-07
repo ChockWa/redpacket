@@ -26,7 +26,8 @@ public class UserController {
 
     @RequestMapping(value = "/getCount")
     @ResponseBody
-    public Result getCount(@RequestParam Map map){
+    @MustLogin(false)
+    public Result getCount(){
         throw UserException.USER_ISEXIST_ERROR;
     }
 
