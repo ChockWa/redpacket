@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+/**
+ * session会话相关业务逻辑
+ */
 @Service
 public class SessionService {
 
@@ -18,9 +21,19 @@ public class SessionService {
     @Autowired
     private RedisService redisService;
 
+    /**
+     * 获取session
+     * @param sessionKey
+     * @return
+     */
     public SessionDto getSession(String sessionKey){
         return (SessionDto) redisService.get(sessionKey);
     }
+
+    /**
+     * 生成session
+     * @return
+     */
     public SessionDto genSession() {
         SessionDto session = new SessionDto();
         session.setSessionKey(newSessionKey());

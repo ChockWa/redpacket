@@ -1,7 +1,7 @@
 package com.hdh.redpacket.common.interceptor;
 
 import com.hdh.redpacket.common.service.InvokeService;
-import com.hdh.redpacket.system.service.AccessTokenService;
+import com.hdh.redpacket.common.service.ParamsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -10,16 +10,24 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Map;
+
 @Component
 public class CommonInteceptor implements HandlerInterceptor {
 
     @Autowired
     private InvokeService invokeService;
 
+    @Autowired
+    private ParamsService paramsService;
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+        // 处理request的参数
+        Map<String,Object> dataMap = paramsService.dueRequestParams(httpServletRequest);
+        String queryString = httpServletRequest.getQueryString();
         // 校验是否登录
-        invokeService.checkLoginHandle(httpServletRequest.getParameter(AccessTokenService.DEFAULTE_TOKEN_NAME),httpServletRequest.getRequestURI());
+        invokeService.checkSaftHandle(httpServletRequest.getRequestURI(),dataMap);
         return true;
     }
 
