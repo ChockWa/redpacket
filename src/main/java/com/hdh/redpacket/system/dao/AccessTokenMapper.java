@@ -10,4 +10,6 @@ import org.apache.ibatis.annotations.Param;
 public interface AccessTokenMapper extends BaseMapper<AccessToken> {
 
     AccessTokenDto getByAccessToken(@Param("accessToken")String accessToken);
+
+    int deleteByUserId(Long userId);
 }

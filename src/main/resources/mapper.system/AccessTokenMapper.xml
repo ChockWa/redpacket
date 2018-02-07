@@ -18,7 +18,12 @@
     <select id="getByAccessToken" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from access_token
+        from sys_access_token
         where access_token = #{accessToken}
     </select>
+
+    <delete id="deleteByUserId">
+        delete from sys_access_token
+        where user_id = #{userId}
+    </delete>
 </mapper>

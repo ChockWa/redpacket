@@ -13,10 +13,13 @@
       <result column="tel" jdbcType="VARCHAR" property="tel" />
       <result column="invite_by" jdbcType="BIGINT" property="inviteBy" />
       <result column="state" jdbcType="INTEGER" property="state" />
+      <result column="invite_code" jdbcType="VARCHAR" property="inviteCode" />
+      <result column="platform" jdbcType="VARCHAR" property="platform" />
   </resultMap>
 
     <sql id="Base_Column_List">
-        id, name, email, password, salt, register_time,gender,nickname,tel,invite_by,state
+        id, name, email, password, salt, register_time,gender,nickname,tel,invite_by,state,
+        invite_code,platform
     </sql>
 
     <select id="getByQuery" parameterType="com.hdh.redpacket.user.model.User" resultMap="BaseResultMap">
@@ -29,9 +32,6 @@
             </if>
             <if test="email != null and email != ''">
                 and email = #{email}
-            </if>
-            <if test="tel != null and tel != ''">
-                and tel = #{tel}
             </if>
             <if test="id != null">
                 and id = #{id}
@@ -51,5 +51,13 @@
         <include refid="Base_Column_List" />
         from sys_user
         where name = #{name}
+    </select>
+
+    <select id="getCount" resultType="bigint">
+        select count(id) from sys_user;
+    </select>
+
+    <select id="getMaxId" resultType="bigint">
+        select max(id)from sys_user;
     </select>
 </mapper>

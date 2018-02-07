@@ -1,5 +1,6 @@
 package com.hdh.redpacket.user.service;
 
+import com.hdh.redpacket.core.utils.InviteCodeUtil;
 import com.hdh.redpacket.core.utils.SecrityUtils;
 import com.hdh.redpacket.system.service.VerificationService;
 import com.hdh.redpacket.user.dao.UserMapper;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserAuthorization {
+public class RegisterService {
 
     @Autowired
     private UserMapper userMapper;
@@ -32,7 +33,7 @@ public class UserAuthorization {
         }
 
         // 检验图形验证码
-        verificationService.checkVerfyCode(null,registerDto.getVerifyCode());
+        verificationService.checkVerfyCode(registerDto.getBindKey(),registerDto.getVerifyCode());
 
         // 初始化用户数据
         User newUser = initNewUserDefaultData(registerDto);
@@ -76,6 +77,9 @@ public class UserAuthorization {
         user.setSalt(salt);
         user.setPassword(SecrityUtils.md5Pwd(salt,registerDto.getPassword()));
         user.setTel(registerDto.getTel());
+        user.setPlatform(registerDto.getPlatform());
+        long count = userMapper.getMaxId();
+        user.setInviteCode(InviteCodeUtil.idToCode(count+1));
         return user;
     }
 }

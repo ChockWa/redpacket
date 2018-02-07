@@ -31,6 +31,26 @@ public class User {
     // 状态1-正常2-禁用
     private Integer state;
 
+    private String inviteCode;
+
+    private Integer platform;
+
+    public Integer getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(Integer platform) {
+        this.platform = platform;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
+    }
+
     public Long getInviteBy() {
         return inviteBy;
     }

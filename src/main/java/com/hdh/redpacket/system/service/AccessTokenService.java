@@ -4,6 +4,9 @@ import com.hdh.redpacket.core.utils.BeanUtils;
 import com.hdh.redpacket.core.utils.UuidUtil;
 import com.hdh.redpacket.system.dao.AccessTokenMapper;
 import com.hdh.redpacket.system.dto.AccessTokenDto;
+import com.hdh.redpacket.system.exception.SafeException;
+import com.hdh.redpacket.system.model.AccessToken;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,28 @@ public class AccessTokenService {
         }
 
         return BeanUtils.copyToNewBean(accessTokenMapper.getByAccessToken(accessToken),AccessTokenDto.class);
+    }
+
+    /**
+     * 生成token
+     * @param userId
+     * @return
+     */
+    public String generateToken(Long userId){
+        if(null == userId){
+            throw SafeException.PARAMS_ERROR;
+        }
+        accessTokenMapper.deleteByUserId(userId);
+
+        String tokenStr = RandomStringUtils.randomAlphabetic(64);
+
+        AccessToken entity = new AccessToken();
+        entity.setUserId(userId);
+        entity.setAccessToken(tokenStr);
+        entity.setCreateTime(new Date());
+        entity.setExpireTime(getExpireTime());
+        accessTokenMapper.insert(entity);
+        return tokenStr;
     }
 
     /**

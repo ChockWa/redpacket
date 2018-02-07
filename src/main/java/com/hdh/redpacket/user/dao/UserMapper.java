@@ -14,9 +14,6 @@ public interface UserMapper extends BaseMapper<User>{
     @Select("select id,user_name userName,password from user")
     List<User> getList();
 
-    @Select("select count(uid) from acc_user")
-    int getCount();
-
     /**
      * 根据条件查询用户
      * @param user
@@ -37,4 +34,16 @@ public interface UserMapper extends BaseMapper<User>{
      * @return
      */
     User getByName(@Param("name")String name);
+
+    /**
+     * 获取总用户数量
+     * @return
+     */
+    long getCount();
+
+    /**
+     * 获取最大的id值
+     * @return
+     */
+    long getMaxId();
 }

@@ -20,6 +20,28 @@ public class RegisterDto {
     // 电话
     private String tel;
 
+    // 图形验证码的绑定码
+    private String bindKey;
+
+    // 区
+    private Integer platform;
+
+    public Integer getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(Integer platform) {
+        this.platform = platform;
+    }
+
+    public String getBindKey() {
+        return bindKey;
+    }
+
+    public void setBindKey(String bindKey) {
+        this.bindKey = bindKey;
+    }
+
     public String getTel() {
         return tel;
     }
