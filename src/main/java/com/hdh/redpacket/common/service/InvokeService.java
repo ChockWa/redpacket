@@ -13,11 +13,16 @@ import com.hdh.redpacket.user.model.User;
 import com.hdh.redpacket.user.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.*;
 
 @Service
@@ -35,6 +40,9 @@ public class InvokeService {
     @Autowired
     private SignService signService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 检查是否登录操作
      * @param dataMap
@@ -48,11 +56,13 @@ public class InvokeService {
             Set<String> patterns = info.getPatternsCondition().getPatterns();
             b:for(String pattern : patterns){
                 String accessToken = dataMap.get(AccessTokenService.DEFAULTE_TOKEN_NAME) == null ? "" : dataMap.get(AccessTokenService.DEFAULTE_TOKEN_NAME).toString();
-                String sessionKey = dataMap.get("sessionKey") == null ? "" : dataMap.get("sessionKey").toString();
+                String sessionKey = dataMap.get("sessionKey") == null ? "" : (String)dataMap.get("sessionKey");
                 if(pattern.equals(requestUri)){
                     // 校验是否登录
                     if(checkLoginOrNot(method)){
                         validateAccessToken(accessToken);
+//                        injectionUser(method,validateAccessToken(accessToken).getUserId());
+//                        injectionUser(method,1L);
                     }
                     // 安全校验
 //                    if(checkSecurityAccessOrNot(method)){
@@ -100,7 +110,7 @@ public class InvokeService {
      * @param accessToken
      * @return
      */
-    private void validateAccessToken(String accessToken){
+    private AccessTokenDto validateAccessToken(String accessToken){
         if(StringUtils.isBlank(accessToken)){
             throw CommonException.USER_NOT_LOGIN_ERROR;
         }
@@ -112,6 +122,37 @@ public class InvokeService {
         if(DateUtils.greater(new Date(),accessTokenDto.getExpireTime())){
             throw CommonException.TOKEN_EXPIRE;
         }
+        return accessTokenDto;
+    }
+
+    private void injectionUser(HandlerMethod handlerMethod, Long userId){
+        if(userId == null){
+            return;
+        }
+        User user = new User();
+        user.setId(5L);
+        user.setName("bbbb");
+        Method method = handlerMethod.getMethod();
+        Parameter[] parameters = method.getParameters();
+        if(parameters == null || parameters.length < 1){
+            return;
+        }
+
+        for(Parameter parameter : parameters){
+            try{
+                if(parameter.getType().equals(User.class)){
+                    method.invoke(handlerMethod.getBeanType().newInstance(),new Object[]{user});
+                }
+//                Class<?> clazz = parameter.getClass();
+//                Object object = clazz.newInstance();
+//                if(object instanceof User){
+//
+//                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**

@@ -25,8 +25,7 @@ public class CommonInteceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         // 处理request的参数
         Map<String,Object> dataMap = paramsService.dueRequestParams(httpServletRequest);
-        String queryString = httpServletRequest.getQueryString();
-        // 校验是否登录
+        // 安全校验
         invokeService.checkSaftHandle(httpServletRequest.getRequestURI(),dataMap);
         return true;
     }

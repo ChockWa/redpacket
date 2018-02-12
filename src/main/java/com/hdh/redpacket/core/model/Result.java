@@ -30,6 +30,12 @@ public class Result {
         this.code = code;
     }
 
+    public Result(Integer code,String msg,Map<String,Object> data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
     /**
      * 只有错误码和错误信息的
      * @param code
@@ -69,7 +75,9 @@ public class Result {
     }
 
     // 成功
-    public static Result SUCCESS = new Result(0,"");
+    public static Result SUCCESS(){
+        return new Result(0,"",new HashMap<>());
+    }
 
     // 失败
     public static Result FAIL(int code,String msg){

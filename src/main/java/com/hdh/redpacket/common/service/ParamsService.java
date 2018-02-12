@@ -17,8 +17,12 @@ public class ParamsService {
     public Map<String,Object> dueRequestParams(HttpServletRequest request){
 
         Map<String,Object> map = new HashMap<>();
-        for(Map.Entry entry : request.getParameterMap().entrySet()){
-            map.put(entry.getKey().toString(),entry.getValue());
+        Map<String,String[]> reqMap = request.getParameterMap();
+        for(Map.Entry<String,String[]> entry : reqMap.entrySet()){
+            String[] values = entry.getValue();
+            if(values != null && values.length > 0){
+                map.put(entry.getKey(),values[0]);
+            }
         }
 
         return map;

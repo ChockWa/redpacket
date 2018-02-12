@@ -1,10 +1,12 @@
 package com.hdh.redpacket.user.controller;
 
 import com.hdh.redpacket.core.annotation.MustLogin;
+import com.hdh.redpacket.core.annotation.SecurityAccess;
 import com.hdh.redpacket.core.model.Result;
 import com.hdh.redpacket.user.dto.LoginDto;
 import com.hdh.redpacket.user.dto.RegisterDto;
 import com.hdh.redpacket.user.exception.UserException;
+import com.hdh.redpacket.user.model.User;
 import com.hdh.redpacket.user.service.LoginService;
 import com.hdh.redpacket.user.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 
 @RestController
+@RequestMapping("/api.do")
 @MustLogin(true)
 public class UserController {
 
@@ -26,9 +29,13 @@ public class UserController {
 
     @RequestMapping(value = "/getCount")
     @ResponseBody
-    @MustLogin(false)
-    public Result getCount(){
-        throw UserException.USER_ISEXIST_ERROR;
+    @MustLogin(true)
+    @SecurityAccess(true)
+    public Result getCount(User user){
+        Result result = Result.SUCCESS();
+        result.setData(user);
+        return result;
+//        throw UserException.USER_ISEXIST_ERROR;
     }
 
     /**
@@ -41,7 +48,7 @@ public class UserController {
     @MustLogin(false)
     public Result register(@RequestParam RegisterDto registerDto){
         registerService.register(registerDto);
-        return Result.SUCCESS;
+        return Result.SUCCESS();
     }
 
     /**
@@ -53,7 +60,7 @@ public class UserController {
     @ResponseBody
     @MustLogin(false)
     public Result login(@RequestParam LoginDto loginDto){
-        return Result.SUCCESS.setData(loginService.login(loginDto));
+        return Result.SUCCESS().setData(loginService.login(loginDto));
     }
 
 }

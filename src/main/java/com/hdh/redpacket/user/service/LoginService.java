@@ -68,6 +68,7 @@ public class LoginService {
         String accessToken = accessTokenService.generateToken(user.getId());
         LoginResultDto loginResultDto = new LoginResultDto();
         loginResultDto.setAccessToken(accessToken);
+        loginResultDto.setUserId(user.getId());
         return loginResultDto;
     }
 

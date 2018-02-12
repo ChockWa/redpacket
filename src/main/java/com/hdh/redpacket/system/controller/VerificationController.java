@@ -28,7 +28,7 @@ public class VerificationController {
      * @return
      */
     public Result verifyCodeGenBaseDivide(){
-        Result result = Result.SUCCESS;
+        Result result = Result.SUCCESS();
         int codeLen = 4; // 验证码长度
         String bindKey = UuidUtil.genUuidNoLine(); // 图形验证码绑定的临时值
         CaptchaGenerateor captcha = new CaptchaGenerateor(verificationService.verifyCodeGeneration(codeLen, bindKey));
