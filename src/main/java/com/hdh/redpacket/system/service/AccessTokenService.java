@@ -6,6 +6,8 @@ import com.hdh.redpacket.system.dao.AccessTokenMapper;
 import com.hdh.redpacket.system.dto.AccessTokenDto;
 import com.hdh.redpacket.system.exception.SafeException;
 import com.hdh.redpacket.system.model.AccessToken;
+import com.hdh.redpacket.user.model.User;
+import com.hdh.redpacket.user.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +74,18 @@ public class AccessTokenService {
      */
     public Date getExpireTime() {
         return new Date(System.currentTimeMillis() + (TOKEN_EXPIRE_TIME * 1000));
+    }
+
+    /**
+     * 通过token获取用户信息
+     * @param accessToken
+     * @return
+     */
+    public User getUserByToken(String accessToken){
+        if(StringUtils.isBlank(accessToken)){
+            return null;
+        }
+
+        return accessTokenMapper.getUserByAccessToken(accessToken);
     }
 }

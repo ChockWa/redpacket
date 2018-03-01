@@ -26,4 +26,13 @@
         delete from sys_access_token
         where user_id = #{userId}
     </delete>
+
+    <select id="getUserByAccessToken" resultType="com.hdh.redpacket.user.model.User">
+        select
+        b.id, b.name, b.email, b.password, b.salt, b.register_time registerTime,b.gender,
+        b.nickname,b.tel,b.invite_by inviteBy,b.state,
+        b.invite_code inviteCode,b.platform
+        from sys_access_token a
+        inner join sys_user b on a.user_id = b.id
+    </select>
 </mapper>
