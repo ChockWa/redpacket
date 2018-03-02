@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <property name="logBase" value="../" />
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</pattern>
@@ -8,10 +9,12 @@
         </encoder>
     </appender>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/home/_xyy_/output/SpringBootDemo/logs/stdout.log</file>
+        <!--<file>/home/_xyy_/output/SpringBootDemo/logs/stdout.log</file>-->
+        <file>${logBase}/logs/stdout.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover 保存历史记录到这个文件夹一日起为后缀 -->
-            <fileNamePattern>/home/_xyy_/output/SpringBootDemo/logs/stdout.log.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--<fileNamePattern>/home/_xyy_/output/SpringBootDemo/logs/stdout.log.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+            <fileNamePattern>${logBase}/logs/stdout.log.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- keep 30 days' worth of history -->
             <maxHistory>30</maxHistory>
         </rollingPolicy>
