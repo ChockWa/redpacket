@@ -16,7 +16,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/api.do")
+@RequestMapping("/user")
 @MustLogin(true)
 public class UserController {
 

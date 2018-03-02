@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * session会话控制器
  */
 @RestController
-@RequestMapping("/api.do")
+@RequestMapping("/sys")
 public class SessionController {
 
     @Autowired
