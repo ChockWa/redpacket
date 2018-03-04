@@ -4,17 +4,11 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import javax.sql.DataSource;
@@ -23,17 +17,7 @@ import java.util.Map;
 import java.util.Properties;
 
 @Configuration
-public class DruidDataSourceConfig implements EnvironmentAware {
-
-    private RelaxedPropertyResolver propertyResolver;
-
-    @Autowired
-    private DataSource dataSource;
-
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.datasource.");
-    }
+public class DruidDataSourceConfig {
 
     @Bean
     public DataSource dataSource() {
@@ -96,13 +80,6 @@ public class DruidDataSourceConfig implements EnvironmentAware {
         //beanNameAutoProxyCreator.setBeanNames("sysRoleMapper","loginController");
         beanNameAutoProxyCreator.setInterceptorNames("druid-stat-interceptor");
         return beanNameAutoProxyCreator;
-    }
-
-    @Bean
-    public SqlSessionFactory sqlSessionFactory() throws Exception {
-        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource);
-        return sessionFactory.getObject();
     }
 
 
