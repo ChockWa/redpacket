@@ -57,7 +57,7 @@ public class InvokeService {
                 if(pattern.equals(requestUri)){
                     // 校验是否登录
                     if(checkLoginOrNot(method)){
-//                        UserInfo.setUserData(accessToken);
+                        UserInfo.setUserData(accessToken);
                         validateAccessToken(accessToken);
                     }
                     // 安全校验

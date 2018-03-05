@@ -1,5 +1,6 @@
 package com.hdh.redpacket.user.controller;
 
+import com.hdh.redpacket.common.service.UserInfo;
 import com.hdh.redpacket.core.annotation.MustLogin;
 import com.hdh.redpacket.core.annotation.SecurityAccess;
 import com.hdh.redpacket.core.cache.RedisService;
@@ -30,8 +31,8 @@ public class UserController {
     @SecurityAccess(false)
     public Result getCount(User user){
         Result result = Result.SUCCESS();
-//        User user1 = UserInfo.getUser();
-//        result.setData(user1);
+        User user1 = UserInfo.getUser();
+        result.setData(user1);
         return result;
 //        throw UserException.USER_ISEXIST_ERROR;
     }
