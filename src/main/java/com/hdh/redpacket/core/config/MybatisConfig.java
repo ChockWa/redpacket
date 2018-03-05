@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
-@MapperScan("com.hdh.redpacket.*.dao*")
+@MapperScan("com.hdh.redpacket.*.mapper*")
 public class MybatisConfig {
 }

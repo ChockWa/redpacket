@@ -4,7 +4,7 @@ import com.hdh.redpacket.core.utils.RegxUtils;
 import com.hdh.redpacket.core.utils.SecrityUtils;
 import com.hdh.redpacket.system.service.AccessTokenService;
 import com.hdh.redpacket.system.service.VerificationService;
-import com.hdh.redpacket.user.dao.UserMapper;
+import com.hdh.redpacket.user.mapper.UserMapper;
 import com.hdh.redpacket.user.dto.LoginDto;
 import com.hdh.redpacket.user.dto.LoginResultDto;
 import com.hdh.redpacket.user.exception.UserException;

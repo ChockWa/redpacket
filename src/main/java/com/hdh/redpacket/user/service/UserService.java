@@ -1,6 +1,6 @@
 package com.hdh.redpacket.user.service;
 
-import com.hdh.redpacket.user.dao.UserMapper;
+import com.hdh.redpacket.user.mapper.UserMapper;
 import com.hdh.redpacket.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

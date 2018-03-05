@@ -2,12 +2,11 @@ package com.hdh.redpacket.system.service;
 
 import com.hdh.redpacket.core.utils.BeanUtils;
 import com.hdh.redpacket.core.utils.UuidUtil;
-import com.hdh.redpacket.system.dao.AccessTokenMapper;
+import com.hdh.redpacket.system.mapper.AccessTokenMapper;
 import com.hdh.redpacket.system.dto.AccessTokenDto;
 import com.hdh.redpacket.system.exception.SafeException;
 import com.hdh.redpacket.system.model.AccessToken;
 import com.hdh.redpacket.user.model.User;
-import com.hdh.redpacket.user.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

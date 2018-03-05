@@ -3,7 +3,7 @@ package com.hdh.redpacket.user.service;
 import com.hdh.redpacket.core.utils.InviteCodeUtil;
 import com.hdh.redpacket.core.utils.SecrityUtils;
 import com.hdh.redpacket.system.service.VerificationService;
-import com.hdh.redpacket.user.dao.UserMapper;
+import com.hdh.redpacket.user.mapper.UserMapper;
 import com.hdh.redpacket.user.dto.RegisterDto;
 import com.hdh.redpacket.user.exception.UserException;
 import com.hdh.redpacket.user.model.User;

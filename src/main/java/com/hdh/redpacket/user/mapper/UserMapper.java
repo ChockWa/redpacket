@@ -1,4 +1,4 @@
-package com.hdh.redpacket.user.dao;
+package com.hdh.redpacket.user.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.hdh.redpacket.user.model.User;

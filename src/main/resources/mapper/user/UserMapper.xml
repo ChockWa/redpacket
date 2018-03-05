@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hdh.redpacket.user.dao.UserMapper">
+<mapper namespace="com.hdh.redpacket.user.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.hdh.redpacket.user.model.User">
-      <id column="id" jdbcType="BIGINT" property="id" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
-      <result column="email" jdbcType="VARCHAR" property="email" />
-      <result column="password" jdbcType="VARCHAR" property="password" />
-      <result column="salt" jdbcType="VARCHAR" property="salt" />
-      <result column="register_time" jdbcType="TIMESTAMPS" property="register_time" />
-      <result column="gender" jdbcType="INTEGER" property="gender" />
-      <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-      <result column="tel" jdbcType="VARCHAR" property="tel" />
-      <result column="invite_by" jdbcType="BIGINT" property="inviteBy" />
-      <result column="state" jdbcType="INTEGER" property="state" />
-      <result column="invite_code" jdbcType="VARCHAR" property="inviteCode" />
-      <result column="platform" jdbcType="VARCHAR" property="platform" />
+      <id column="id" property="id" />
+      <result column="name" property="name" />
+      <result column="email" property="email" />
+      <result column="password" property="password" />
+      <result column="salt" property="salt" />
+      <!--<result column="register_time" jdbcType="TIMESTAMPS" property="register_time" />-->
+      <result column="register_time" property="register_time" />
+      <result column="gender" property="gender" />
+      <result column="nickname" property="nickname" />
+      <result column="tel" property="tel" />
+      <result column="invite_by" property="inviteBy" />
+      <result column="state" property="state" />
+      <result column="invite_code" property="inviteCode" />
+      <result column="platform" property="platform" />
   </resultMap>
 
     <sql id="Base_Column_List">

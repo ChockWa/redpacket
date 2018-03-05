@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hdh.redpacket.system.dao.AccessTokenMapper">
+<mapper namespace="com.hdh.redpacket.system.mapper.AccessTokenMapper">
   <resultMap id="BaseResultMap" type="com.hdh.redpacket.system.model.AccessToken">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="access_token" jdbcType="BIGINT" property="accessToken" />
-    <result column="session_key" jdbcType="BIGINT" property="sessionKey" />
-    <result column="expire_time" jdbcType="BIGINT" property="expireTime" />
-    <result column="renew_time" jdbcType="BIGINT" property="renewTime" />
-    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <id column="id" property="id" />
+    <result column="user_id" property="userId" />
+    <result column="access_token" property="accessToken" />
+    <result column="session_key" property="sessionKey" />
+    <result column="expire_time" property="expireTime" />
+    <result column="renew_time" property="renewTime" />
+    <result column="create_time" property="createTime" />
   </resultMap>
 
   <sql id="Base_Column_List">
