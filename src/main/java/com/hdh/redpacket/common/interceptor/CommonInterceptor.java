@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Component
-public class CommonInteceptor implements HandlerInterceptor {
+public class CommonInterceptor implements HandlerInterceptor {
 
     @Autowired
     private InvokeService invokeService;

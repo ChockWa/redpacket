@@ -5,40 +5,35 @@ import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
-import org.springframework.boot.context.embedded.ServletRegistrationBean;
-import org.springframework.context.EnvironmentAware;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
-public class DruidDataSourceConfig implements EnvironmentAware {
-    private RelaxedPropertyResolver propertyResolver;
-
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.datasource.");
-    }
+@Configuration
+public class DruidDataSourceConfig {
 
     @Bean
     public DataSource dataSource() {
         DruidDataSource datasource = new DruidDataSource();
-        datasource.setUrl(propertyResolver.getProperty("url"));
-        datasource.setDriverClassName(propertyResolver.getProperty("driver-class-name"));
-        datasource.setUsername(propertyResolver.getProperty("username"));
-        datasource.setPassword(propertyResolver.getProperty("password"));
-        datasource.setInitialSize(Integer.valueOf(propertyResolver.getProperty("initialSize")));
-        datasource.setMinIdle(Integer.valueOf(propertyResolver.getProperty("minIdle")));
-        datasource.setMaxWait(Long.valueOf(propertyResolver.getProperty("maxWait")));
-        datasource.setMaxActive(Integer.valueOf(propertyResolver.getProperty("maxActive")));
-        datasource.setMinEvictableIdleTimeMillis(
-                Long.valueOf(propertyResolver.getProperty("minEvictableIdleTimeMillis")));
         try {
-            datasource.setFilters("stat,wall");
+            Properties properties = PropertiesLoaderUtils.loadAllProperties("application.properties");
+            datasource.setUrl(properties.getProperty("spring.datasource.url"));
+            datasource.setDriverClassName(properties.getProperty("spring.datasource.driver-class-name"));
+            datasource.setUsername(properties.getProperty("spring.datasource.username"));
+            datasource.setPassword(properties.getProperty("spring.datasource.password"));
+            datasource.setInitialSize(Integer.valueOf(properties.getProperty("spring.datasource.initialSize")));
+            datasource.setMinIdle(Integer.valueOf(properties.getProperty("spring.datasource.minIdle")));
+            datasource.setMaxWait(Long.valueOf(properties.getProperty("spring.datasource.maxWait")));
+            datasource.setMaxActive(Integer.valueOf(properties.getProperty("spring.datasource.maxActive")));
+            datasource.setMinEvictableIdleTimeMillis(
+                    Long.valueOf(properties.getProperty("spring.datasource.minEvictableIdleTimeMillis")));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,4 +81,6 @@ public class DruidDataSourceConfig implements EnvironmentAware {
         beanNameAutoProxyCreator.setInterceptorNames("druid-stat-interceptor");
         return beanNameAutoProxyCreator;
     }
+
+
 }

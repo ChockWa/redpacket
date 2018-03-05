@@ -2,6 +2,7 @@ package com.hdh.redpacket.user.controller;
 
 import com.hdh.redpacket.core.annotation.MustLogin;
 import com.hdh.redpacket.core.annotation.SecurityAccess;
+import com.hdh.redpacket.core.cache.RedisService;
 import com.hdh.redpacket.core.model.Result;
 import com.hdh.redpacket.user.dto.LoginDto;
 import com.hdh.redpacket.user.dto.RegisterDto;
@@ -16,7 +17,6 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/api.do")
 @MustLogin(true)
 public class UserController {
 
@@ -26,12 +26,17 @@ public class UserController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private RedisService redisService;
+
 
     @RequestMapping(value = "/getCount")
     @ResponseBody
-    @MustLogin(true)
-    @SecurityAccess(true)
+    @MustLogin(false)
+    @SecurityAccess(false)
     public Result getCount(User user){
+        redisService.set("name","aaaa");
+        System.out.println("----------------"+redisService.get("name"));
         Result result = Result.SUCCESS();
         result.setData(user);
         return result;
