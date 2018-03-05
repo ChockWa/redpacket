@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringUtil implements ApplicationContextAware {
 
-    private Logger logger = LoggerFactory.getLogger(SpringUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(SpringUtil.class);
 
     private static ApplicationContext applicationContext;
 
@@ -22,11 +22,11 @@ public class SpringUtil implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-    public Object getBean(String beanName){
+    public static Object getBean(String beanName){
         return applicationContext.getBean(beanName);
     }
 
-    public <T> T getBean(Class<T> clazz){
+    public static <T> T getBean(Class<T> clazz){
         try {
             return applicationContext.getBean(clazz);
         }catch (Exception e){

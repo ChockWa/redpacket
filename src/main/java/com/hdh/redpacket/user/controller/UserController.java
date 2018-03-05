@@ -17,7 +17,6 @@ import java.util.Map;
 
 
 @RestController
-@MustLogin(true)
 public class UserController {
 
     @Autowired
@@ -26,19 +25,13 @@ public class UserController {
     @Autowired
     private LoginService loginService;
 
-    @Autowired
-    private RedisService redisService;
-
-
     @RequestMapping(value = "/getCount")
     @ResponseBody
-    @MustLogin(false)
     @SecurityAccess(false)
     public Result getCount(User user){
-        redisService.set("name","aaaa");
-        System.out.println("----------------"+redisService.get("name"));
         Result result = Result.SUCCESS();
-        result.setData(user);
+//        User user1 = UserInfo.getUser();
+//        result.setData(user1);
         return result;
 //        throw UserException.USER_ISEXIST_ERROR;
     }

@@ -32,6 +32,9 @@ public class RegisterService {
             throw UserException.PARAMS_ERROR;
         }
 
+        //  注册通用校验
+        this.commonRegisterVerify(registerDto);
+
         // 检验图形验证码
         verificationService.checkVerfyCode(registerDto.getBindKey(),registerDto.getVerifyCode());
 

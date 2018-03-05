@@ -1,5 +1,6 @@
 package com.hdh.redpacket.system.controller;
 
+import com.hdh.redpacket.core.annotation.MustLogin;
 import com.hdh.redpacket.core.model.Result;
 import com.hdh.redpacket.core.utils.CaptchaGenerateor;
 import com.hdh.redpacket.core.utils.UuidUtil;
@@ -8,6 +9,8 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
@@ -27,6 +30,9 @@ public class VerificationController {
      * 生成图形验证码
      * @return
      */
+    @RequestMapping("/getVerifyCode")
+    @MustLogin(false)
+    @ResponseBody
     public Result verifyCodeGenBaseDivide(){
         Result result = Result.SUCCESS();
         int codeLen = 4; // 验证码长度

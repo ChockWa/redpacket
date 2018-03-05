@@ -54,10 +54,10 @@
     </select>
 
     <select id="getCount" resultType="bigint">
-        select count(id) from sys_user;
+        select count(id) from sys_user
     </select>
 
     <select id="getMaxId" resultType="bigint">
-        select max(id)from sys_user;
+        select max(id)from sys_user
     </select>
 </mapper>

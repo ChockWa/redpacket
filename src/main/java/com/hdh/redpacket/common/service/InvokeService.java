@@ -40,9 +40,6 @@ public class InvokeService {
     @Autowired
     private SignService signService;
 
-    @Autowired
-    private UserService userService;
-
     /**
      * 检查是否登录操作
      * @param dataMap
@@ -60,9 +57,8 @@ public class InvokeService {
                 if(pattern.equals(requestUri)){
                     // 校验是否登录
                     if(checkLoginOrNot(method)){
+//                        UserInfo.setUserData(accessToken);
                         validateAccessToken(accessToken);
-//                        injectionUser(method,validateAccessToken(accessToken).getUserId());
-//                        injectionUser(method,1L);
                     }
                     // 安全校验
 //                    if(checkSecurityAccessOrNot(method)){
@@ -123,36 +119,6 @@ public class InvokeService {
             throw CommonException.TOKEN_EXPIRE;
         }
         return accessTokenDto;
-    }
-
-    private void injectionUser(HandlerMethod handlerMethod, Long userId){
-        if(userId == null){
-            return;
-        }
-        User user = new User();
-        user.setId(5L);
-        user.setName("bbbb");
-        Method method = handlerMethod.getMethod();
-        Parameter[] parameters = method.getParameters();
-        if(parameters == null || parameters.length < 1){
-            return;
-        }
-
-        for(Parameter parameter : parameters){
-            try{
-                if(parameter.getType().equals(User.class)){
-                    method.invoke(handlerMethod.getBeanType().newInstance(),new Object[]{user});
-                }
-//                Class<?> clazz = parameter.getClass();
-//                Object object = clazz.newInstance();
-//                if(object instanceof User){
-//
-//                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-
     }
 
     /**

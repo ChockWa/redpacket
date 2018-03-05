@@ -7,22 +7,31 @@ import java.util.Date;
 @TableName("sys_user")
 public class User {
 
+    // 用户id
     private Long id;
 
+    // 用户真实姓名
     private String name;
 
+    // 密码
     private String password;
 
+    // 盐
     private String salt;
 
+    // 注册时间
     private Date registerTime;
 
+    // 性别
     private Integer gender;
 
+    // 昵称
     private String nickname;
 
+    // 邮箱
     private String email;
 
+    // 手机号码
     private String tel;
 
     // 邀请人id
@@ -31,8 +40,10 @@ public class User {
     // 状态1-正常2-禁用
     private Integer state;
 
+    // 邀请码
     private String inviteCode;
 
+    // 区
     private Integer platform;
 
     public Integer getPlatform() {
