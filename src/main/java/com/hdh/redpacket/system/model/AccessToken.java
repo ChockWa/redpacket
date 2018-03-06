@@ -1,7 +1,10 @@
 package com.hdh.redpacket.system.model;
 
+import com.baomidou.mybatisplus.annotations.TableName;
+
 import java.util.Date;
 
+@TableName("sys_access_token")
 public class AccessToken {
 	// id
 	private Long id;
