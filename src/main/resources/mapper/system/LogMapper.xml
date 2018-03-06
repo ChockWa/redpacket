@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdh.redpacket.system.mapper.LogMapper">
+    <resultMap id="BaseResultMap" type="com.hdh.redpacket.system.model.Log">
+        <id column="id" property="id" />
+        <result column="log_time" property="logTime" />
+        <result column="log_type" property="logType" />
+        <result column="log_dec" property="logDec" />
+        <result column="log_user" property="logUser" />
+        <result column="log_ip_address" property="logIpAddress" />
+        <result column="log_url" property="logUrl" />
+        <result column="log_status" property="logStatus" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, log_time, log_type, log_dec, log_user, log_ip_address, log_url, log_status
+    </sql>
+
+</mapper>
