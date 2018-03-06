@@ -4,6 +4,8 @@ import com.hdh.redpacket.common.service.UserInfo;
 import com.hdh.redpacket.core.annotation.MustLogin;
 import com.hdh.redpacket.core.annotation.SecurityAccess;
 import com.hdh.redpacket.core.model.Result;
+import com.hdh.redpacket.system.mapper.AccessTokenMapper;
+import com.hdh.redpacket.system.model.AccessToken;
 import com.hdh.redpacket.user.dto.LoginDto;
 import com.hdh.redpacket.user.dto.RegisterDto;
 import com.hdh.redpacket.user.exception.UserException;
@@ -20,6 +22,9 @@ public class UserController {
     private RegisterService registerService;
 
     @Autowired
+    private AccessTokenMapper accessTokenMapper;
+
+    @Autowired
     private LoginService loginService;
 
     @RequestMapping(value = "/getCount")
@@ -29,8 +34,19 @@ public class UserController {
         Result result = Result.SUCCESS();
         User user1 = UserInfo.getUser();
         result.setData(user1);
-//        return result;
-        throw UserException.USER_ISEXIST_ERROR;
+        return result;
+//        throw UserException.USER_ISEXIST_ERROR;
+    }
+
+    @RequestMapping(value = "/test")
+    @ResponseBody
+    @MustLogin(false)
+    @SecurityAccess(false)
+    public Result test(User user){
+        Result result = Result.SUCCESS();
+        accessTokenMapper.insert(new AccessToken());
+        return result;
+//        throw UserException.USER_ISEXIST_ERROR;
     }
 
     /**

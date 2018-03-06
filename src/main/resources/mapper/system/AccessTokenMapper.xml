@@ -36,8 +36,8 @@
         inner join sys_user b on a.user_id = b.id
     </select>
 
-    <insert id="insert" parameterType="com.hdh.redpacket.system.model.AccessToken">
-        insert into sys_access_token(user_id, access_token, session_key, expire_time, renew_time, create_time)
-        values(#{userId},#{accessToken},#{sessionKey},#{expireTime},#{renewTime},#{createTime})
-    </insert>
+    <!--<insert id="insert" parameterType="com.hdh.redpacket.system.model.AccessToken">-->
+        <!--insert into sys_access_token(user_id, access_token, session_key, expire_time, renew_time, create_time)-->
+        <!--values(#{userId},#{accessToken},#{sessionKey},#{expireTime},#{renewTime},#{createTime})-->
+    <!--</insert>-->
 </mapper>
