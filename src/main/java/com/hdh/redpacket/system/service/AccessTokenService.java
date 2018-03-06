@@ -25,9 +25,6 @@ public class AccessTokenService {
     @Autowired
     private AccessTokenMapper accessTokenMapper;
 
-    @Autowired
-    private RedisService redisService;
-
     /**
      * 查找accessToken
      * @param accessToken
@@ -38,11 +35,7 @@ public class AccessTokenService {
             return null;
         }
 
-        AccessToken accessToken1 = (AccessToken) redisService.get(accessToken);
-        if(accessToken1 == null){
-            accessToken1 = accessTokenMapper.getByAccessToken(accessToken);
-        }
-        return BeanUtils.copyToNewBean(accessToken1,AccessTokenDto.class);
+        return BeanUtils.copyToNewBean(accessTokenMapper.getByAccessToken(accessToken),AccessTokenDto.class);
     }
 
     /**
@@ -65,7 +58,6 @@ public class AccessTokenService {
         entity.setExpireTime(getExpireTime());
         accessTokenMapper.insert(entity);
 
-        redisService.set(entity.getAccessToken(),entity,(int)(entity.getExpireTime().getTime()-System.currentTimeMillis())/1000);
         return tokenStr;
     }
 
