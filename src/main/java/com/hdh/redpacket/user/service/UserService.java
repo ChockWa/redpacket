@@ -2,6 +2,7 @@ package com.hdh.redpacket.user.service;
 
 import com.hdh.redpacket.user.mapper.UserMapper;
 import com.hdh.redpacket.user.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public User getUserById(Long userId){
-        if(userId == null){
+    public User getUserById(String userId){
+        if(StringUtils.isBlank(userId)){
             return null;
         }
         return userMapper.selectById(userId);

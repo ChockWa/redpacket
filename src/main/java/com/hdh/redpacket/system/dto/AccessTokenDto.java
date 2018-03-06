@@ -7,7 +7,7 @@ public class AccessTokenDto {
 	private Long id;
 
 	// 用户id
-	private Long userId;
+	private String userId;
 
 	// 会话key
 	private String accessToken;
@@ -32,11 +32,11 @@ public class AccessTokenDto {
 		this.id = id;
 	}
 
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

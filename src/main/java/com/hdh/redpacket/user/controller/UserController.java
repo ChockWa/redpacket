@@ -3,7 +3,6 @@ package com.hdh.redpacket.user.controller;
 import com.hdh.redpacket.common.service.UserInfo;
 import com.hdh.redpacket.core.annotation.MustLogin;
 import com.hdh.redpacket.core.annotation.SecurityAccess;
-import com.hdh.redpacket.core.cache.RedisService;
 import com.hdh.redpacket.core.model.Result;
 import com.hdh.redpacket.user.dto.LoginDto;
 import com.hdh.redpacket.user.dto.RegisterDto;
@@ -13,9 +12,6 @@ import com.hdh.redpacket.user.service.LoginService;
 import com.hdh.redpacket.user.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-
 
 @RestController
 public class UserController {
@@ -33,8 +29,8 @@ public class UserController {
         Result result = Result.SUCCESS();
         User user1 = UserInfo.getUser();
         result.setData(user1);
-        return result;
-//        throw UserException.USER_ISEXIST_ERROR;
+//        return result;
+        throw UserException.USER_ISEXIST_ERROR;
     }
 
     /**
@@ -45,7 +41,7 @@ public class UserController {
     @RequestMapping(value = "/register")
     @ResponseBody
     @MustLogin(false)
-    public Result register(@RequestParam RegisterDto registerDto){
+    public Result register(RegisterDto registerDto){
         registerService.register(registerDto);
         return Result.SUCCESS();
     }
@@ -58,7 +54,7 @@ public class UserController {
     @RequestMapping(value = "/login")
     @ResponseBody
     @MustLogin(false)
-    public Result login(@RequestParam LoginDto loginDto){
+    public Result login(LoginDto loginDto){
         return Result.SUCCESS().setData(loginService.login(loginDto));
     }
 

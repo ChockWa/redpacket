@@ -7,8 +7,7 @@
       <result column="email" property="email" />
       <result column="password" property="password" />
       <result column="salt" property="salt" />
-      <!--<result column="register_time" jdbcType="TIMESTAMPS" property="register_time" />-->
-      <result column="register_time" property="register_time" />
+      <result column="register_time" property="registerTime" />
       <result column="gender" property="gender" />
       <result column="nickname" property="nickname" />
       <result column="tel" property="tel" />
@@ -54,11 +53,14 @@
         where name = #{name}
     </select>
 
-    <select id="getCount" resultType="bigint">
+    <select id="getCount" resultType="int">
         select count(id) from sys_user
     </select>
 
-    <select id="getMaxId" resultType="bigint">
-        select max(id)from sys_user
-    </select>
+    <insert id="insert" parameterType="com.hdh.redpacket.user.model.User">
+        insert into sys_user(id, name, email, password, salt, register_time,gender,nickname,tel,invite_by,state,
+        invite_code,platform)
+        values(#{id},#{name},#{email},#{password},#{salt},#{registerTime},#{gender},#{nickname},#{tel},
+        #{inviteBy},#{state},#{inviteCode},#{platform})
+    </insert>
 </mapper>

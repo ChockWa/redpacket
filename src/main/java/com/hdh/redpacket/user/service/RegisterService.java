@@ -2,6 +2,7 @@ package com.hdh.redpacket.user.service;
 
 import com.hdh.redpacket.core.utils.InviteCodeUtil;
 import com.hdh.redpacket.core.utils.SecrityUtils;
+import com.hdh.redpacket.core.utils.UuidUtil;
 import com.hdh.redpacket.system.service.VerificationService;
 import com.hdh.redpacket.user.mapper.UserMapper;
 import com.hdh.redpacket.user.dto.RegisterDto;
@@ -27,8 +28,7 @@ public class RegisterService {
      */
     public void register(RegisterDto registerDto){
         if(registerDto == null || StringUtils.isBlank(registerDto.getPassword()) ||
-                (StringUtils.isBlank(registerDto.getEmail()) && StringUtils.isBlank(registerDto.getName()) ||
-                StringUtils.isBlank(registerDto.getVerifyCode()))){
+                (StringUtils.isBlank(registerDto.getEmail()) && StringUtils.isBlank(registerDto.getName()))){
             throw UserException.PARAMS_ERROR;
         }
 
@@ -36,7 +36,7 @@ public class RegisterService {
         this.commonRegisterVerify(registerDto);
 
         // 检验图形验证码
-        verificationService.checkVerfyCode(registerDto.getBindKey(),registerDto.getVerifyCode());
+//        verificationService.checkVerfyCode(registerDto.getBindKey(),registerDto.getVerifyCode());
 
         // 初始化用户数据
         User newUser = initNewUserDefaultData(registerDto);
@@ -73,6 +73,7 @@ public class RegisterService {
      */
     private User initNewUserDefaultData(RegisterDto registerDto){
         User user = new User();
+        user.setId(UuidUtil.genUuidNoLine());
         user.setEmail(registerDto.getEmail());
         user.setGender(registerDto.getGender());
         user.setName(registerDto.getName());
@@ -81,7 +82,8 @@ public class RegisterService {
         user.setPassword(SecrityUtils.md5Pwd(salt,registerDto.getPassword()));
         user.setTel(registerDto.getTel());
         user.setPlatform(registerDto.getPlatform());
-        long count = userMapper.getMaxId();
+        user.setState(1);
+        long count = userMapper.getCount();
         user.setInviteCode(InviteCodeUtil.idToCode(count+1));
         return user;
     }

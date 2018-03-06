@@ -12,6 +12,7 @@ import com.hdh.redpacket.user.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 登录相关逻辑
@@ -33,6 +34,7 @@ public class LoginService {
      * @param loginDto
      * @return
      */
+    @Transactional
     public LoginResultDto login(LoginDto loginDto){
         if(loginDto == null || StringUtils.isBlank(loginDto.getAccount()) || StringUtils.isBlank(loginDto.getPassword())){
             throw UserException.PARAMS_ERROR;
@@ -57,7 +59,7 @@ public class LoginService {
         }
 
         // 校验图形验证码
-        verificationService.checkVerfyCode(loginDto.getVerifyCode(),loginDto.getVerifyCode());
+//        verificationService.checkVerfyCode(loginDto.getVerifyCode(),loginDto.getVerifyCode());
 
         // 校验密码
         if(!checkPassword(loginDto.getPassword(),user.getSalt(),user.getPassword())){

@@ -8,7 +8,7 @@ import java.util.Date;
 public class User {
 
     // 用户id
-    private Long id;
+    private String id;
 
     // 用户真实姓名
     private String name;
@@ -78,11 +78,11 @@ public class User {
         this.state = state;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

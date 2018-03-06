@@ -16,14 +16,19 @@ public class GlobalExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    // 记录该次请求的异常
+    public static final ThreadLocal<Result> exceptionMsg = new ThreadLocal<>();
+
     @ExceptionHandler(value=Exception.class)
     public Result exceptionHandle(HttpServletRequest request, Exception exception) throws Exception{
 
         if(exception instanceof BizException){
+            exceptionMsg.set(new Result(((BizException) exception).code,((BizException) exception).msg));
             return Result.FAIL(((BizException) exception).code,((BizException) exception).msg);
         }else{
             BizException sysException = SysException.SYS_ERROR;
             logger.error("系统内部错误:" + exception.toString(),exception);
+            exceptionMsg.set(new Result((sysException).code,(sysException).msg));
             return Result.FAIL(sysException.code,sysException.msg);
         }
     }

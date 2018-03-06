@@ -39,11 +39,8 @@ public interface UserMapper extends BaseMapper<User>{
      * 获取总用户数量
      * @return
      */
-    long getCount();
+    int getCount();
 
-    /**
-     * 获取最大的id值
-     * @return
-     */
-    long getMaxId();
+    Integer insert(User user);
+
 }

@@ -2,6 +2,8 @@ package com.hdh.redpacket.common.interceptor;
 
 import com.hdh.redpacket.common.service.InvokeService;
 import com.hdh.redpacket.common.service.ParamsService;
+import com.hdh.redpacket.common.service.UserInfo;
+import com.hdh.redpacket.core.exception.GlobalExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -39,5 +41,7 @@ public class CommonInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
         System.out.println("afterCompletion");
         System.out.println("------------"+httpServletRequest.getRequestURI());
+        System.out.println(UserInfo.getUser().getId());
+        System.out.println("--------------"+GlobalExceptionHandler.exceptionMsg.get().getMsg());
     }
 }
