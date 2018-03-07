@@ -7,5 +7,7 @@ import java.util.List;
 
 public class ConfigDicCache {
 
-    private LoadingCache<String,List<ConfigDic>> configDicListItem;
+    private static LoadingCache<String,List<ConfigDic>> listConfigItemCache;
+
+    private static LoadingCache<String,ConfigDic> configItemCache;
 }
