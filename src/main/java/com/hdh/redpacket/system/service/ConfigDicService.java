@@ -24,11 +24,11 @@ public class ConfigDicService {
     }
 
     /**
-     * 根据code获取字典
+     * 根据code获取字典列表
      * @param code
      * @return
      */
-    public ConfigDic getByCode(String code){
+    public List<ConfigDic> getDicsByCode(String code){
         if(StringUtils.isBlank(code)){
             return null;
         }
@@ -36,16 +36,14 @@ public class ConfigDicService {
         return configDicMapper.getByCode(code);
     }
 
-    /**
-     * 根据字典类型获取字典列表
-     * @param type
-     * @return
-     */
-    public List<ConfigDic> getByDicType(Integer type){
-        if(type == null){
-            return new ArrayList<>();
+    public ConfigDic getDicByCode(String code){
+        if(StringUtils.isBlank(code)){
+            return null;
         }
 
-        return configDicMapper.getByDicType(type);
+        List<ConfigDic> list = configDicMapper.getByCode(code);
+        return list != null && list.size() == 1 ? list.get(0) : null;
     }
+
+
 }

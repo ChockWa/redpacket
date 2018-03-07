@@ -10,26 +10,23 @@ public class ConfigDic {
     // 自增id
     private Long id;
 
-    // 字典类型
-    private Integer type;
-
     // 字典类型名称
-    private String name;
+    private String dicName;
 
     // 字典编码
-    private String code;
+    private String dicCode;
+
+    // 字典名称
+    private String dicLabel;
 
     // 字典值
-    private String value;
+    private String dicValue;
 
-    // 描述
+    // 备注
     private String remark;
 
     // 状态1-正常
     private Integer status;
-
-    // 创建时间
-    private Date createTime;
 
     public Long getId() {
         return id;
@@ -39,36 +36,36 @@ public class ConfigDic {
         this.id = id;
     }
 
-    public Integer getType() {
-        return type;
+    public String getDicName() {
+        return dicName;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setDicName(String dicName) {
+        this.dicName = dicName;
     }
 
-    public String getName() {
-        return name;
+    public String getDicCode() {
+        return dicCode;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDicCode(String dicCode) {
+        this.dicCode = dicCode;
     }
 
-    public String getCode() {
-        return code;
+    public String getDicLabel() {
+        return dicLabel;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setDicLabel(String dicLabel) {
+        this.dicLabel = dicLabel;
     }
 
-    public String getValue() {
-        return value;
+    public String getDicValue() {
+        return dicValue;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setDicValue(String dicValue) {
+        this.dicValue = dicValue;
     }
 
     public String getRemark() {
@@ -85,13 +82,5 @@ public class ConfigDic {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 }
