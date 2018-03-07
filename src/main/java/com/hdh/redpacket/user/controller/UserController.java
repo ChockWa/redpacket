@@ -8,10 +8,12 @@ import com.hdh.redpacket.system.mapper.AccessTokenMapper;
 import com.hdh.redpacket.system.model.AccessToken;
 import com.hdh.redpacket.user.dto.LoginDto;
 import com.hdh.redpacket.user.dto.RegisterDto;
+import com.hdh.redpacket.user.dto.UserPropertyDto;
 import com.hdh.redpacket.user.exception.UserException;
 import com.hdh.redpacket.user.model.User;
 import com.hdh.redpacket.user.service.LoginService;
 import com.hdh.redpacket.user.service.RegisterService;
+import com.hdh.redpacket.user.service.UserPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,9 @@ public class UserController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private UserPropertyService userPropertyService;
 
     @RequestMapping(value = "/getCount")
     @ResponseBody
@@ -57,6 +62,7 @@ public class UserController {
     @RequestMapping(value = "/register")
     @ResponseBody
     @MustLogin(false)
+    @SecurityAccess(true)
     public Result register(RegisterDto registerDto){
         registerService.register(registerDto);
         return Result.SUCCESS();
@@ -70,8 +76,21 @@ public class UserController {
     @RequestMapping(value = "/login")
     @ResponseBody
     @MustLogin(false)
+    @SecurityAccess(true)
     public Result login(LoginDto loginDto){
         return Result.SUCCESS().setData(loginService.login(loginDto));
+    }
+
+    /**
+     * 获取用户属性
+     * @return
+     */
+    @RequestMapping(value = "/getUserProperties")
+    @ResponseBody
+    @SecurityAccess(true)
+    public Result getUserProperties(){
+        UserPropertyDto userPropertyDto = userPropertyService.getUserProperties(UserInfo.getUser().getId());
+        return Result.SUCCESS().setData(userPropertyDto);
     }
 
 }

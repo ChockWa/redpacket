@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdh.redpacket.user.mapper.UserPropertyMapper">
+  <resultMap id="BaseResultMap" type="com.hdh.redpacket.user.model.UserProperty">
+      <id column="id" property="id" />
+      <result column="user_id" property="userId" />
+      <result column="level" property="level" />
+      <result column="recharge_amount" property="rechargeAmount" />
+      <result column="point" property="point" />
+      <result column="diamond" property="diamond" />
+      <result column="invite_num" property="inviteNum" />
+      <result column="probability" property="probability" />
+      <result column="win_probability" property="winProbability" />
+      <result column="create_time" property="createTime" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, level, recharge_amount, point, diamond,invite_num,probability,win_probability,create_time
+    </sql>
+
+    <select id="getUserPropertiesByUserId" resultType="com.hdh.redpacket.user.dto.UserPropertyDto">
+        select
+        a.invite_code inviteCode,
+        b.level,b.recharge_amount rechargeAmount,b.point,b.diamond,b.invite_num inviteNum,b.probability,
+        b.win_probability winProbability,b.create_time createTime
+        from sys_user a
+        inner join sys_user_property b on a.id = b.user_id
+        where a.id = #{userId}
+    </select>
+</mapper>

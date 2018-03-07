@@ -8,10 +8,15 @@ import com.hdh.redpacket.user.mapper.UserMapper;
 import com.hdh.redpacket.user.dto.RegisterDto;
 import com.hdh.redpacket.user.exception.UserException;
 import com.hdh.redpacket.user.model.User;
+import com.hdh.redpacket.user.model.UserProperty;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Service
 public class RegisterService {
@@ -22,10 +27,14 @@ public class RegisterService {
     @Autowired
     private VerificationService verificationService;
 
+    @Autowired
+    private UserPropertyService userPropertyService;
+
     /**
      * 用户注册
      * @param registerDto
      */
+    @Transactional
     public void register(RegisterDto registerDto){
         if(registerDto == null || StringUtils.isBlank(registerDto.getPassword()) ||
                 (StringUtils.isBlank(registerDto.getEmail()) && StringUtils.isBlank(registerDto.getName()))){
@@ -43,6 +52,31 @@ public class RegisterService {
 
         // 进行注册
         userMapper.insert(newUser);
+
+        // 初始化用户属性
+        initUserProperty(newUser.getId());
+    }
+
+    /**
+     * 初始化用户属性
+     * @param userId
+     */
+    private void initUserProperty(String userId){
+        if(StringUtils.isBlank(userId)){
+            throw UserException.PARAMS_ERROR;
+        }
+
+        UserProperty userProperty = new UserProperty();
+        userProperty.setUserId(userId);
+        userProperty.setCreateTime(new Date());
+        userProperty.setDiamond(0);
+        userProperty.setInviteNum(0);
+        userProperty.setLevel(1);
+        userProperty.setPoint(0);
+        userProperty.setProbability(new BigDecimal(20));
+        userProperty.setWinProbability(BigDecimal.ZERO);
+        userProperty.setRechargeAmount(BigDecimal.ZERO);
+        userPropertyService.addUserProperty(userProperty);
     }
 
     /**

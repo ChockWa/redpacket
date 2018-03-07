@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdh.redpacket.system.mapper.ConfigDicMapper">
+    <resultMap id="BaseResultMap" type="com.hdh.redpacket.system.model.ConfigDic">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="value" property="value" />
+        <result column="remark" property="remark" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, type, name, code, value, remark, status, create_time
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict
+        where status = 1
+    </select>
+
+    <select id="getByCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict
+        where status = 1
+        and code = #{code}
+    </select>
+
+    <select id="getByDicType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict
+        where status = 1
+        and type = #{type}
+    </select>
+</mapper>
