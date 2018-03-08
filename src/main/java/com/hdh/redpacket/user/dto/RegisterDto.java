@@ -26,6 +26,16 @@ public class RegisterDto {
     // 区
     private Integer platform;
 
+    private String inviteCode;
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
+    }
+
     public Integer getPlatform() {
         return platform;
     }

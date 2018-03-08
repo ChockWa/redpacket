@@ -4,8 +4,10 @@ import com.hdh.redpacket.common.service.UserInfo;
 import com.hdh.redpacket.core.annotation.MustLogin;
 import com.hdh.redpacket.core.annotation.SecurityAccess;
 import com.hdh.redpacket.core.model.Result;
+import com.hdh.redpacket.core.utils.DictUtils;
 import com.hdh.redpacket.system.mapper.AccessTokenMapper;
 import com.hdh.redpacket.system.model.AccessToken;
+import com.hdh.redpacket.system.model.ConfigDic;
 import com.hdh.redpacket.user.dto.LoginDto;
 import com.hdh.redpacket.user.dto.RegisterDto;
 import com.hdh.redpacket.user.dto.UserPropertyDto;
@@ -16,6 +18,8 @@ import com.hdh.redpacket.user.service.RegisterService;
 import com.hdh.redpacket.user.service.UserPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -35,10 +39,11 @@ public class UserController {
     @RequestMapping(value = "/getCount")
     @ResponseBody
     @SecurityAccess(false)
+    @MustLogin(false)
     public Result getCount(User user){
         Result result = Result.SUCCESS();
-        User user1 = UserInfo.getUser();
-        result.setData(user1);
+        List<ConfigDic> value = DictUtils.getDicList("gender");
+        result.setData("value",value.size());
         return result;
 //        throw UserException.USER_ISEXIST_ERROR;
     }

@@ -12,10 +12,11 @@
       <result column="probability" property="probability" />
       <result column="win_probability" property="winProbability" />
       <result column="create_time" property="createTime" />
+      <result column="win_plays" property="winPlays" />
   </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, level, recharge_amount, point, diamond,invite_num,probability,win_probability,create_time
+        id, user_id, level, win_plays, recharge_amount, point, diamond,invite_num,probability,win_probability,create_time
     </sql>
 
     <select id="getUserPropertiesByUserId" resultType="com.hdh.redpacket.user.dto.UserPropertyDto">
@@ -27,4 +28,35 @@
         inner join sys_user_property b on a.id = b.user_id
         where a.id = #{userId}
     </select>
+
+    <update id="updateByUserIdSelective" parameterType="com.hdh.redpacket.user.model.UserProperty">
+        update
+        <trim prefixOverrides="set" suffixOverrides=",">
+            <if test="level != null and level != 0">
+                level = #{level},
+            </if>
+            <if test="point != null and point != 0">
+                point = #{point},
+            </if>
+            <if test="diamond != null and diamond != 0">
+                diamond = #{diamond},
+            </if>
+            <if test="inviteNum != null and inviteNum != 0">
+                invite_num = #{inviteNum},
+            </if>
+            <if test="probability != null">
+                probability = #{probability},
+            </if>
+            <if test="winProbability != null">
+                win_probability = #{winProbability},
+            </if>
+            <if test="rechargeAmount != null">
+                recharge_amount = #{rechargeAmount},
+            </if>
+            <if test="winPlays != null and winPlays != 0">
+                win_plays = #{winPlays},
+            </if>
+        </trim>
+        where user_id = #{userId}
+    </update>
 </mapper>

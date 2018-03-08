@@ -57,4 +57,10 @@
         select count(id) from sys_user
     </select>
 
+    <select id="getByInviteCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        where invite_code = #{inviteCode}
+    </select>
 </mapper>

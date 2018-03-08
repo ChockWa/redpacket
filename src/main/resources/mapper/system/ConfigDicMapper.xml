@@ -27,7 +27,7 @@
         <include refid="Base_Column_List"/>
         from sys_dict
         where status = 1
-        and code = #{code}
+        and dic_code = #{code}
     </select>
 
 </mapper>

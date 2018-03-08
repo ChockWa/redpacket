@@ -41,6 +41,10 @@ public interface UserMapper extends BaseMapper<User>{
      */
     int getCount();
 
-    Integer insert(User user);
-
+    /**
+     * 根据邀请码查询用户
+     * @param inviteCode
+     * @return
+     */
+    User getByInviteCode(@Param("inviteCode")String inviteCode);
 }

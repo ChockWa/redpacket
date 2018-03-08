@@ -15,4 +15,11 @@ public interface UserPropertyMapper extends BaseMapper<UserProperty>{
      * @return
      */
     UserPropertyDto getUserPropertiesByUserId(@Param("userId")String userId);
+
+    /**
+     * 根据用户id选择性更新信息
+     * @param userProperty
+     * @return
+     */
+    int updateByUserIdSelective(UserProperty userProperty);
 }

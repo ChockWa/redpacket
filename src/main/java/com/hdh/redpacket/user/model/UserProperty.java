@@ -38,6 +38,16 @@ public class UserProperty {
     // 创建时间
     private Date createTime;
 
+    private int winPlays;
+
+    public int getWinPlays() {
+        return winPlays;
+    }
+
+    public void setWinPlays(int winPlays) {
+        this.winPlays = winPlays;
+    }
+
     public Long getId() {
         return id;
     }

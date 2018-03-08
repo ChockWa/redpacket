@@ -1,6 +1,7 @@
 package com.hdh.redpacket.user.service;
 
 import com.hdh.redpacket.user.dto.UserPropertyDto;
+import com.hdh.redpacket.user.exception.UserException;
 import com.hdh.redpacket.user.mapper.UserPropertyMapper;
 import com.hdh.redpacket.user.model.UserProperty;
 import org.apache.commons.lang3.StringUtils;
@@ -35,5 +36,17 @@ public class UserPropertyService {
         }
 
         userPropertyMapper.insert(userProperty);
+    }
+
+    /**
+     * 更新用户属性
+     * @param userProperty
+     */
+    public void updateUserProperty(UserProperty userProperty){
+        if(userProperty == null || StringUtils.isBlank(userProperty.getUserId())){
+            throw UserException.PARAMS_ERROR;
+        }
+
+        userPropertyMapper.updateByUserIdSelective(userProperty);
     }
 }

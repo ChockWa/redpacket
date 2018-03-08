@@ -28,6 +28,9 @@ public class UserException extends BizException {
     /** 登录密码错误 */
     public static final UserException LOGIN_PASSWORD_ERROR = new UserException(10000007,"登录密码错误");
 
+    /** 邀请码所属用户不存在 */
+    public static final UserException INVITECODE_USER_NOT_EXIST = new UserException(10000008,"邀请码所属用户不存在");
+
 
     protected UserException(int code, String msg) {
         super(code, msg);

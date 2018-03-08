@@ -1,8 +1,12 @@
 package com.hdh.redpacket.user.service;
 
+import com.hdh.redpacket.core.utils.DictUtils;
 import com.hdh.redpacket.core.utils.InviteCodeUtil;
 import com.hdh.redpacket.core.utils.SecrityUtils;
 import com.hdh.redpacket.core.utils.UuidUtil;
+import com.hdh.redpacket.system.constant.DictEnum;
+import com.hdh.redpacket.system.constant.PropertyTypeEnum;
+import com.hdh.redpacket.system.model.ConfigDic;
 import com.hdh.redpacket.system.service.VerificationService;
 import com.hdh.redpacket.user.mapper.UserMapper;
 import com.hdh.redpacket.user.dto.RegisterDto;
@@ -21,6 +25,9 @@ import java.util.Date;
 @Service
 public class RegisterService {
 
+    // 默认邀请一个人增加的概率
+    private static final BigDecimal INVITE_ADD_PROD_DEFAULT = new BigDecimal(0.02);
+
     @Autowired
     private UserMapper userMapper;
 
@@ -29,6 +36,9 @@ public class RegisterService {
 
     @Autowired
     private UserPropertyService userPropertyService;
+
+    @Autowired
+    private PropertyLogService propertyLogService;
 
     /**
      * 用户注册
@@ -46,6 +56,11 @@ public class RegisterService {
 
         // 检验图形验证码
 //        verificationService.checkVerfyCode(registerDto.getBindKey(),registerDto.getVerifyCode());
+
+        // 是否有邀请码，有则进行相应的操作
+        if(StringUtils.isNotBlank(registerDto.getInviteCode())){
+            addPropertyByInvite(registerDto.getInviteCode());
+        }
 
         // 初始化用户数据
         User newUser = initNewUserDefaultData(registerDto);
@@ -121,4 +136,37 @@ public class RegisterService {
         user.setInviteCode(InviteCodeUtil.idToCode(count+1));
         return user;
     }
+
+    /**
+     * 增加用户属性根据邀请人
+     * @param invideCode
+     */
+    private void addPropertyByInvite(String invideCode){
+        if(StringUtils.isBlank(invideCode)){
+            throw UserException.PARAMS_ERROR;
+        }
+
+        User user = userMapper.getByInviteCode(invideCode);
+        if(user == null){
+            throw UserException.INVITECODE_USER_NOT_EXIST;
+        }
+
+        // 进行加邀请人数及概率操作
+        UserProperty userProperty = userPropertyService.getUserProperties(user.getId());
+        BigDecimal oldProbability = userProperty.getProbability();
+        userProperty.setInviteNum(userProperty.getInviteNum()+1);
+        ConfigDic configDic = DictUtils.getDic(DictEnum.INVITE_ADD_PROD.getCode());
+        if(configDic != null){
+            userProperty.setProbability(userProperty.getProbability().add(BigDecimal.ONE));
+        }else{
+            userProperty.setProbability(userProperty.getProbability().add(INVITE_ADD_PROD_DEFAULT));
+        }
+        userPropertyService.updateUserProperty(userProperty);
+
+        // 插入概率变化记录表
+        propertyLogService.addPropertyLog(user.getId(), PropertyTypeEnum.PROBABILITY.name(),oldProbability,userProperty.getProbability(),1,new Date());
+        // 插入邀请人数变化记录表
+        propertyLogService.addPropertyLog(user.getId(), PropertyTypeEnum.INVITE_NUM.name(),new BigDecimal(userProperty.getInviteNum()-1),new BigDecimal(userProperty.getInviteNum()),1,new Date());
+    }
+
 }

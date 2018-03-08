@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdh.redpacket.user.mapper.PropertyLogMapper">
+  <resultMap id="BaseResultMap" type="com.hdh.redpacket.user.model.PropertyLog">
+      <id column="id" property="id" />
+      <result column="user_id" property="userId" />
+      <result column="property_type" property="propertyType" />
+      <result column="old_value" property="oldValue" />
+      <result column="new_value" property="newValue" />
+      <result column="change_type" property="changeType" />
+      <result column="create_time" property="createTime" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, property_type, old_value, new_value, change_type,create_time
+    </sql>
+
+</mapper>

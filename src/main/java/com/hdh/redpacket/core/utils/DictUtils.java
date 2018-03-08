@@ -20,7 +20,7 @@ public class DictUtils {
     public static List<ConfigDic> getDicList(String code){
         if (StringUtils.isBlank(code)) return new ArrayList<>();
 
-        return ConfigDicCache.getListConfigItem(code);
+        return ConfigDicCache.getConfigDics(code);
     }
 
     /**
@@ -31,6 +31,6 @@ public class DictUtils {
     public static ConfigDic getDic(String code){
         if (StringUtils.isBlank(code)) return null;
 
-        return ConfigDicCache.getConfigItem(code);
+        return ConfigDicCache.getConfigDic(code);
     }
 }

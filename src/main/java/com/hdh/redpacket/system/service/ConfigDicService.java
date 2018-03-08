@@ -30,10 +30,11 @@ public class ConfigDicService {
      */
     public List<ConfigDic> getDicsByCode(String code){
         if(StringUtils.isBlank(code)){
-            return null;
+            return new ArrayList<>();
         }
 
-        return configDicMapper.getByCode(code);
+        List<ConfigDic> list = configDicMapper.getByCode(code);
+        return list;
     }
 
     public ConfigDic getDicByCode(String code){
