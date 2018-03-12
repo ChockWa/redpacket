@@ -13,4 +13,8 @@ public interface GamePlayMapper extends BaseMapper<GamePlay> {
     GamePlay selectBySelective(GamePlay gamePlay);
 
     List<GamePlay> selectByStatus(@Param("status")List<Integer> status);
+
+    int updateByPlayNoSelective(GamePlay gamePlay);
+
+    GamePlay selectByPlayNo(@Param("playNo")String playNo);
 }

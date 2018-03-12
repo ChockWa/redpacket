@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hdh.redpacket.game.mapper.GamePlayMapper">
-    <resultMap id="BaseResultMap" type="com.hdh.redpacket.game.model.GamePlay">
+<mapper namespace="com.hdh.redpacket.game.mapper.GamePlayDetailMapper">
+    <resultMap id="BaseResultMap" type="com.hdh.redpacket.game.model.GamePlayDetail">
         <id column="id" property="id" />
         <result column="play_no" property="playNo" />
         <result column="user_id" property="userId" />
@@ -14,4 +14,17 @@
         id, play_no, user_id, diamond, num, create_time
     </sql>
 
+    <insert id="insertOrUpdate" parameterType="com.hdh.redpacket.game.model.GamePlayDetail">
+        insert into sys_game_play_detail(play_no,user_id,diamond,num,create_time)
+        values(#{playNo},#{userId},#{diamond},#{num},#{createTime})
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="diamond != null">
+                diamond = diamond + #{diamond},
+            </if>
+            <if test="num != null">
+                num = num + 1,
+            </if>
+        </trim>
+    </insert>
 </mapper>

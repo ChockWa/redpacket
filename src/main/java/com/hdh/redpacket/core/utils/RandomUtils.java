@@ -1,5 +1,7 @@
 package com.hdh.redpacket.core.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -41,5 +43,20 @@ public class RandomUtils {
 			result.append(String.valueOf(chars[rnd.nextInt(chars.length)]));
 		}
 		return result.toString();
+	}
+
+	/**
+	 * 根据时间获取唯一的场次编号
+	 * @return
+	 */
+	public static String getPlayNoByTime() {
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+		String newDate=sdf.format(new Date());
+		String result="";
+		Random random=new Random();
+		for(int i=0;i<3;i++){
+			result+=random.nextInt(10);
+		}
+		return newDate+result;
 	}
 }
