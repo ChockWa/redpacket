@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdh.redpacket.game.mapper.GamePlayMapper">
+    <resultMap id="BaseResultMap" type="com.hdh.redpacket.game.model.GamePlay">
+        <id column="id" property="id" />
+        <result column="play_no" property="playNo" />
+        <result column="total_diamond" property="totalDiamond" />
+        <result column="win_user_id" property="winUserId" />
+        <result column="times" property="times" />
+        <result column="status" property="status" />
+        <result column="create_time" property="creatTime" />
+        <result column="over_input_time" property="overInputTime" />
+        <result column="over_time" property="overTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, play_no, total_diamond, win_user_id, times, status, create_time, over_input_time, over_time
+    </sql>
+
+    <select id="selectBySelective" parameterType="com.hdh.redpacket.game.model.GamePlay" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        sys_game_play
+        <trim prefix="where" prefixOverrides="and">
+            <if test="status != null">
+                status = #{status}
+            </if>
+            <if test="playNo != null and playNo != ''">
+                play_no = #{playNo}
+            </if>
+            <if test="winUserId != null and winUserId != ''">
+                win_user_id = #{winUserId}
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectByStatus" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        sys_game_play
+        where status in
+        <foreach collection="status" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

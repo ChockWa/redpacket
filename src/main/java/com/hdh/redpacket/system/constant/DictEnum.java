@@ -4,7 +4,9 @@ public enum  DictEnum {
 
     AMOUNT_DIAMOND("amount_diamond","金额与钻石的比例"),
 
-    INVITE_ADD_PROD("invite_add_prod","邀请一个人增加的概率");
+    INVITE_ADD_PROD("invite_add_prod","邀请一个人增加的概率"),
+
+    DIAMOND_LIST("diamonds","投入钻石列表");
 
     private String code;
 

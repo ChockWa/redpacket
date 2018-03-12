@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdh.redpacket.game.mapper.GamePlayMapper">
+    <resultMap id="BaseResultMap" type="com.hdh.redpacket.game.model.GamePlay">
+        <id column="id" property="id" />
+        <result column="play_no" property="playNo" />
+        <result column="user_id" property="userId" />
+        <result column="diamond" property="diamond" />
+        <result column="num" property="num" />
+        <result column="create_time" property="creatTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, play_no, user_id, diamond, num, create_time
+    </sql>
+
+</mapper>

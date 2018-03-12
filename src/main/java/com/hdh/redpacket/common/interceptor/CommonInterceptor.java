@@ -50,7 +50,7 @@ public class CommonInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
         // 记录请求日志
-        writeRequestLog(httpServletRequest);
+//        writeRequestLog(httpServletRequest);
     }
 
     /**

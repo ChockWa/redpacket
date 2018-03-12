@@ -17,6 +17,7 @@ import com.hdh.redpacket.user.service.LoginService;
 import com.hdh.redpacket.user.service.RegisterService;
 import com.hdh.redpacket.user.service.UserPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,17 +45,6 @@ public class UserController {
         Result result = Result.SUCCESS();
         List<ConfigDic> value = DictUtils.getDicList("gender");
         result.setData("value",value.size());
-        return result;
-//        throw UserException.USER_ISEXIST_ERROR;
-    }
-
-    @RequestMapping(value = "/test")
-    @ResponseBody
-    @MustLogin(false)
-    @SecurityAccess(false)
-    public Result test(User user){
-        Result result = Result.SUCCESS();
-        accessTokenMapper.insert(new AccessToken());
         return result;
 //        throw UserException.USER_ISEXIST_ERROR;
     }

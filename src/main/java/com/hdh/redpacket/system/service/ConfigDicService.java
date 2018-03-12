@@ -46,5 +46,17 @@ public class ConfigDicService {
         return list != null && list.size() == 1 ? list.get(0) : null;
     }
 
+    /**
+     * 根据id获取字典
+     * @param id
+     * @return
+     */
+    public ConfigDic getDicById(Long id){
+        if(id == null){
+            return null;
+        }
+        return configDicMapper.selectById(id);
+    }
+
 
 }
