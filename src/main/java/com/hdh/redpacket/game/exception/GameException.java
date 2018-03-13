@@ -13,6 +13,9 @@ public class GameException extends BizException {
     /** 参数有误 */
     public static final GameException PARAMS_ERROR = new GameException(12010002,"参数有误");
 
+    /** 钻石不足，请购买 */
+    public static final GameException DIAMOND_IS_NOT_ENOUGH = new GameException(12010003,"钻石不足，请购买");
+
     protected GameException(int code, String msg) {
         super(code, msg);
     }

@@ -10,6 +10,11 @@ import java.util.stream.Collectors;
 @Service
 public class CaculateService {
 
+    /**
+     * 获取每个玩家合在一起后的概率
+     * @param userProperties
+     * @return
+     */
     public List<UserProperty> getUserWinProbability(List<UserProperty> userProperties){
         if(userProperties == null || userProperties.size() < 1){
             return null;
@@ -48,7 +53,7 @@ public class CaculateService {
             return null;
         }
 
-        // 336/3824
+        BigDecimal winProb = BigDecimal.ZERO;
         Random random = new Random();
         int randNum = random.nextInt((int)Math.pow(100,userProperties.size()));
         // 获取玩家中最大的概率值
@@ -58,8 +63,29 @@ public class CaculateService {
             return null;
         }else{
             // 对概率进行排序(从大到小)
-            BigDecimal[] list = userProperties.stream().sorted((t1,t2) -> t1.getWinProbability().compareTo(t2.getWinProbability())>0?-1:1).toArray(BigDecimal[]::new);
+            BigDecimal[] winProbs = userProperties.stream().sorted((t1,t2) -> t1.getWinProbability().compareTo(t2.getWinProbability())>0?-1:1).toArray(BigDecimal[]::new);
+            for(int i=0;i<winProbs.length;i++){
+                if(new BigDecimal(randNum).compareTo(winProbs[i]) < 0 &&
+                        new BigDecimal(randNum).compareTo(winProbs[i+1]) > 0){
+                    winProb = winProbs[i];
+                    break;
+                }else{
+                    winProb = winProbs[i+1];
+                }
+            }
         }
-        return null;
+
+        // 根据胜率筛选出玩家的信息
+        final BigDecimal winnerProb = winProb;
+        List<UserProperty> winnerList = userProperties.stream().filter(userProperty -> winnerProb.compareTo(userProperty.getWinProbability())==0).collect(Collectors.toList());
+        if(winnerList == null){
+            return null;
+        }
+        // 若存在相同概率的玩家，使用随机数抽取其中一位
+        if(winnerList.size() > 1){
+            int index = random.nextInt(winnerList.size());
+            return winnerList.get(index).getUserId();
+        }
+        return winnerList.get(0).getUserId();
     }
 }

@@ -8,6 +8,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 用户属性相关逻辑
+ */
 @Service
 public class UserPropertyService {
 
@@ -48,5 +54,17 @@ public class UserPropertyService {
         }
 
         userPropertyMapper.updateByUserIdSelective(userProperty);
+    }
+
+    /**
+     * 根据userId列表查询用户属性列表
+     * @param userIds
+     * @return
+     */
+    public List<UserProperty> selectUserProByUserIds(List<String> userIds){
+        if(userIds == null || userIds.size() < 1){
+            return new ArrayList<>();
+        }
+        return userPropertyMapper.selectUserProByUserIds(userIds);
     }
 }

@@ -30,7 +30,7 @@
     </select>
 
     <update id="updateByUserIdSelective" parameterType="com.hdh.redpacket.user.model.UserProperty">
-        update
+        update sys_user_property
         <trim prefixOverrides="set" suffixOverrides=",">
             <if test="level != null and level != 0">
                 level = #{level},
@@ -59,4 +59,13 @@
         </trim>
         where user_id = #{userId}
     </update>
+
+    <select id="selectUserProByUserIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user_property where user_id in
+        <foreach collection="userIds" index="index" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

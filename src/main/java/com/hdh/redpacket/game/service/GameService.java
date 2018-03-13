@@ -10,9 +10,13 @@ import com.hdh.redpacket.game.model.GamePlay;
 import com.hdh.redpacket.game.model.GamePlayDetail;
 import com.hdh.redpacket.system.constant.DictEnum;
 import com.hdh.redpacket.system.constant.GameStatusEnum;
+import com.hdh.redpacket.system.constant.PropertyTypeEnum;
 import com.hdh.redpacket.system.model.ConfigDic;
 import com.hdh.redpacket.system.service.ConfigDicService;
 import com.hdh.redpacket.system.socket.WebSocket;
+import com.hdh.redpacket.user.model.UserProperty;
+import com.hdh.redpacket.user.service.PropertyLogService;
+import com.hdh.redpacket.user.service.UserPropertyService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +32,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collectors;
 
 /**
  * 游戏主要业务类
@@ -45,6 +50,15 @@ public class GameService {
 
     @Autowired
     private GamePlayDetailMapper gamePlayDetailMapper;
+
+    @Autowired
+    private UserPropertyService userPropertyService;
+
+    @Autowired
+    private PropertyLogService propertyLogService;
+
+    @Autowired
+    private CaculateService caculateService;
 
     /**
      * 获取可投的钻石列表
@@ -85,10 +99,23 @@ public class GameService {
             throw SysException.SYS_ERROR;
         }
 
+        UserProperty userProperty = userPropertyService.getUserProperties(userId);
+        if(userProperty == null || userProperty.getDiamond() < Integer.valueOf(configDic.getDicValue())){
+            throw GameException.DIAMOND_IS_NOT_ENOUGH;
+        }
+
         GamePlay gamePlay = gamePlayMapper.selectByPlayNo(playNo);
         if(gamePlay == null){
             throw SysException.SYS_ERROR;
         }
+
+        // 插入钻石减少的记录
+        propertyLogService.addPropertyLog(userId, PropertyTypeEnum.DIAMOND.name(),new BigDecimal(userProperty.getDiamond()),
+                new BigDecimal(userProperty.getDiamond()-Integer.valueOf(configDic.getDicValue())),2,new Date());
+
+        // 减少用户钻石
+        userProperty.setDiamond(userProperty.getDiamond() - Integer.valueOf(configDic.getDicValue()));
+        userPropertyService.updateUserProperty(userProperty);
 
         //  更新场次表
         gamePlay.setTotalDiamond(gamePlay.getTotalDiamond().add(new BigDecimal(configDic.getDicValue())));
@@ -127,6 +154,7 @@ public class GameService {
         GamePlay gamePlay = getCurrentGameMsg();
         if(gamePlay == null){
             logger.error("没找到进行中游戏场次，游戏场次有误");
+            return;
         }
 
         gamePlay.setStatus(GameStatusEnum.WAIT_OPEN.getCode());
@@ -134,22 +162,81 @@ public class GameService {
         gamePlayMapper.updateByPlayNoSelective(gamePlay);
 
         // 把游戏停止投入状态推送到前端
-        String stopInput = JSON.toJSONString(gamePlay);
-        CopyOnWriteArraySet<WebSocket> webSockets = WebSocket.webSocketSet;
-        for(WebSocket webSocket : webSockets){
-            try {
-                webSocket.sendMessage(stopInput);
-            } catch (IOException e) {
-                logger.error("socket通讯失败，停止投入信息推送失败",e);
-            }
-        }
+        pushGamePlayMsg(JSON.toJSONString(gamePlay));
     }
 
     /**
      * 开奖定时任务
      */
     @Scheduled(cron = "0 58 * * * *")
-    private void openAward(){
+    @Transactional
+    public void openAward(){
+        GamePlay gamePlay = getCurrentGameMsg();
+        if(gamePlay == null){
+            logger.error("没找到等待开奖的场次，游戏场次有误");
+            return;
+        }
+        List<GamePlayDetail> gamePlayDetails = gamePlayDetailMapper.selectByPlayNo(gamePlay.getPlayNo());
+        if(gamePlayDetails == null || gamePlayDetails.size() < 1){
+            logger.info("没有玩家参与这场游戏");
+            gamePlay.setStatus(GameStatusEnum.OVER.getCode());
+            gamePlay.setOverTime(new Date());
+            gamePlayMapper.updateByPlayNoSelective(gamePlay);
+            return;
+        }
 
+        List<String> userIds = gamePlayDetails.stream().map(m -> m.getUserId()).collect(Collectors.toList());
+        // 获取参与游戏的用户的属性
+        List<UserProperty> userProperties = userPropertyService.selectUserProByUserIds(userIds);
+        // 获得胜出者的用户id
+        String winnerUserId = caculateService.getWinner(caculateService.getUserWinProbability(userProperties));
+        // 如果用户id为空，则表明这场游戏没有胜出者
+        if(winnerUserId == null){
+            logger.info("没有玩家胜出这场游戏");
+            gamePlay.setStatus(GameStatusEnum.OVER.getCode());
+            gamePlay.setOverTime(new Date());
+            gamePlay.setWinAmount(BigDecimal.ZERO);
+            gamePlay.setWinUserId("0");
+            gamePlayMapper.updateByPlayNoSelective(gamePlay);
+            return;
+        }
+
+        // 胜出者增加相应的钻石数
+        GamePlayDetail winnerDetail = gamePlayDetails.stream().filter(f -> winnerUserId.equals(f.getUserId())).collect(Collectors.toList()).get(0);
+        UserProperty winnerProperty = userProperties.stream().filter(f -> winnerUserId.equals(f.getUserId())).collect(Collectors.toList()).get(0);
+        BigDecimal newDiamond = winnerDetail.getDiamond().multiply(gamePlay.getTimes()).setScale(BigDecimal.ROUND_DOWN);
+
+        // 记录玩家增加的钻石数
+        propertyLogService.addPropertyLog(winnerUserId,PropertyTypeEnum.DIAMOND.name(),new BigDecimal(winnerProperty.getDiamond()),
+                newDiamond,1,new Date());
+
+        // 更新玩家属性表
+        winnerProperty.setDiamond(newDiamond.intValue());
+        winnerProperty.setWinPlays(winnerProperty.getWinPlays() + 1);
+        // TODO 胜率增加 暂时写死
+        winnerProperty.setWinProbability(winnerProperty.getWinProbability().add(new BigDecimal(0.1)));
+        userPropertyService.updateUserProperty(winnerProperty);
+
+        //更新场次表信息
+        gamePlay.setStatus(GameStatusEnum.OVER.getCode());
+        gamePlay.setWinUserId(winnerUserId);
+        gamePlay.setWinAmount(newDiamond);
+        gamePlay.setOverTime(new Date());
+        gamePlayMapper.updateByPlayNoSelective(gamePlay);
+
+        // 把游戏结果推送到前端
+        pushGamePlayMsg(JSON.toJSONString(gamePlay));
+
+    }
+
+    private void pushGamePlayMsg(String message){
+        CopyOnWriteArraySet<WebSocket> webSockets = WebSocket.webSocketSet;
+        for(WebSocket webSocket : webSockets){
+            try {
+                webSocket.sendMessage(message);
+            } catch (IOException e) {
+                logger.error("socket通讯失败，游戏结果信息推送失败",e);
+            }
+        }
     }
 }

@@ -6,6 +6,8 @@ import com.hdh.redpacket.user.model.UserProperty;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface UserPropertyMapper extends BaseMapper<UserProperty>{
 
@@ -22,4 +24,11 @@ public interface UserPropertyMapper extends BaseMapper<UserProperty>{
      * @return
      */
     int updateByUserIdSelective(UserProperty userProperty);
+
+    /**
+     * 根据userId列表查询用户属性列表
+     * @param userIds
+     * @return
+     */
+    List<UserProperty> selectUserProByUserIds(@Param("userIds")List<String> userIds);
 }
