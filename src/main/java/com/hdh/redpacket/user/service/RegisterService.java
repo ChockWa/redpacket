@@ -47,7 +47,7 @@ public class RegisterService {
     @Transactional
     public void register(RegisterDto registerDto){
         if(registerDto == null || StringUtils.isBlank(registerDto.getPassword()) ||
-                (StringUtils.isBlank(registerDto.getEmail()) && StringUtils.isBlank(registerDto.getName()))){
+                (StringUtils.isBlank(registerDto.getEmail()) || StringUtils.isBlank(registerDto.getName()))){
             throw UserException.PARAMS_ERROR;
         }
 
