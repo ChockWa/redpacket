@@ -9,7 +9,7 @@ public class PropertyLog {
 
     private String userId;
 
-    private Integer propertyType;
+    private String propertyType;
 
     private BigDecimal oldValue;
 
@@ -35,11 +35,11 @@ public class PropertyLog {
         this.userId = userId;
     }
 
-    public Integer getPropertyType() {
+    public String getPropertyType() {
         return propertyType;
     }
 
-    public void setPropertyType(Integer propertyType) {
+    public void setPropertyType(String propertyType) {
         this.propertyType = propertyType;
     }
 

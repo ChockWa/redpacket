@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -73,7 +72,7 @@ public class GameService {
      * @return
      */
     public GamePlay getCurrentGameMsg(){
-        // 获取正在投入或者等待开奖的场次信息(正常情况只有一条),多与一条则报错
+        // 获取正在投入或者等待开奖的场次信息(正常情况只有一条),多于一条则报错
         List<Integer> status = Arrays.asList(GameStatusEnum.PLAYING.getCode(),GameStatusEnum.WAIT_OPEN.getCode());
         List<GamePlay> gamePlays = gamePlayMapper.selectByStatus(status);
         if(gamePlays != null && gamePlays.size() > 1){
@@ -99,6 +98,7 @@ public class GameService {
             throw SysException.SYS_ERROR;
         }
 
+        // 判断玩家钻石够不够
         UserProperty userProperty = userPropertyService.getUserProperties(userId);
         if(userProperty == null || userProperty.getDiamond() < Integer.valueOf(configDic.getDicValue())){
             throw GameException.DIAMOND_IS_NOT_ENOUGH;
@@ -117,7 +117,7 @@ public class GameService {
         userProperty.setDiamond(userProperty.getDiamond() - Integer.valueOf(configDic.getDicValue()));
         userPropertyService.updateUserProperty(userProperty);
 
-        //  更新场次表
+        // 更新场次表
         gamePlay.setTotalDiamond(gamePlay.getTotalDiamond().add(new BigDecimal(configDic.getDicValue())));
         gamePlayMapper.updateByPlayNoSelective(gamePlay);
 
@@ -135,7 +135,7 @@ public class GameService {
      * 开始游戏定时任务
      */
     @Scheduled(cron = "0 1 * * * *")
-    private void startGame(){
+    public void startGame(){
         // TODO 判断当前时间是否在允许游戏进行时间段里
         GamePlay gamePlay = new GamePlay();
         gamePlay.setTotalDiamond(BigDecimal.ZERO);
@@ -150,7 +150,7 @@ public class GameService {
      * 停止投入定时任务
      */
     @Scheduled(cron = "0 30 * * * *")
-    private void stopInputDiamond(){
+    public void stopInputDiamond(){
         GamePlay gamePlay = getCurrentGameMsg();
         if(gamePlay == null){
             logger.error("没找到进行中游戏场次，游戏场次有误");
@@ -213,8 +213,9 @@ public class GameService {
         // 更新玩家属性表
         winnerProperty.setDiamond(newDiamond.intValue());
         winnerProperty.setWinPlays(winnerProperty.getWinPlays() + 1);
-        // TODO 胜率增加 暂时写死
-        winnerProperty.setWinProbability(winnerProperty.getWinProbability().add(new BigDecimal(0.1)));
+        List<GamePlay> winPlays = gamePlayMapper.selectByWinUserId(winnerUserId);
+        List<GamePlayDetail> joinPlays = gamePlayDetailMapper.selectByUserId(winnerUserId);
+        winnerProperty.setWinProbability(new BigDecimal(winPlays.size()+1).divide(new BigDecimal(joinPlays.size())));
         userPropertyService.updateUserProperty(winnerProperty);
 
         //更新场次表信息

@@ -82,4 +82,12 @@
         sys_game_play
         where play_no = #{playNo}
     </select>
+
+    <select id="selectByWinUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        sys_game_play
+        where win_user_id = #{winUserId}
+    </select>
 </mapper>

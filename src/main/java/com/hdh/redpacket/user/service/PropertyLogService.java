@@ -33,6 +33,7 @@ public class PropertyLogService {
         }
 
         PropertyLog propertyLog = new PropertyLog();
+        propertyLog.setPropertyType(propertyType);
         propertyLog.setChangeType(changeType);
         propertyLog.setCreateTime(createTime);
         propertyLog.setNewValue(newValue);

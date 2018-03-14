@@ -13,4 +13,6 @@ public interface GamePlayDetailMapper extends BaseMapper<GamePlayDetail> {
     int insertOrUpdate(GamePlayDetail gamePlayDetail);
 
     List<GamePlayDetail> selectByPlayNo(@Param("playNo") String playNo);
+
+    List<GamePlayDetail> selectByUserId(@Param("userId")String userId);
 }

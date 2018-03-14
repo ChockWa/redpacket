@@ -38,7 +38,6 @@ public class UserController {
     private UserPropertyService userPropertyService;
 
     @RequestMapping(value = "/getCount")
-    @ResponseBody
     @SecurityAccess(false)
     @MustLogin(false)
     public Result getCount(User user){
@@ -55,7 +54,6 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/register")
-    @ResponseBody
     @MustLogin(false)
     @SecurityAccess(true)
     public Result register(RegisterDto registerDto){
@@ -69,7 +67,6 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/login")
-    @ResponseBody
     @MustLogin(false)
     @SecurityAccess(true)
     public Result login(LoginDto loginDto){
@@ -81,7 +78,6 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/getUserProperties")
-    @ResponseBody
     @SecurityAccess(true)
     public Result getUserProperties(){
         UserPropertyDto userPropertyDto = userPropertyService.getUserProperties(UserInfo.getUser().getId());
