@@ -42,6 +42,7 @@ public class VerificationController {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         try {
             ImageIO.write(buffImg, "jpeg", outStream);
+            result.setData("bindKey",bindKey);
             result.setData("verifyImage", "data:image/jpg;base64," + new String(Base64.encodeBase64(outStream.toByteArray())));
         } catch (IOException e) {
             e.printStackTrace();

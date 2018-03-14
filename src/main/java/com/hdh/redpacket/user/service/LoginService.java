@@ -59,7 +59,7 @@ public class LoginService {
         }
 
         // 校验图形验证码
-//        verificationService.checkVerfyCode(loginDto.getVerifyCode(),loginDto.getVerifyCode());
+//        verificationService.checkVerfyCode(loginDto.getBindKey(),loginDto.getVerifyCode());
 
         // 校验密码
         if(!checkPassword(loginDto.getPassword(),user.getSalt(),user.getPassword())){

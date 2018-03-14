@@ -29,7 +29,7 @@ public class GameController {
      */
     @RequestMapping(value = "/inputDiamond")
     public Result inputDiamond(String playNo,Long diamondsId){
-        gameService.addDiamond(playNo,UserInfo.getUser().getId(),diamondsId);
+        gameService.addDiamond(playNo,UserInfo.getUser() == null?"":UserInfo.getUser().getId(),diamondsId);
         return Result.SUCCESS();
     }
 

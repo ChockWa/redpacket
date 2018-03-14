@@ -10,6 +10,14 @@ public class LoginDto {
 
     private String bindKey;
 
+    public String getBindKey() {
+        return bindKey;
+    }
+
+    public void setBindKey(String bindKey) {
+        this.bindKey = bindKey;
+    }
+
     public String getAccount() {
         return account;
     }
