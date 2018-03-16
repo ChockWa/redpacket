@@ -250,7 +250,7 @@ public class GameService {
             try {
                 webSocket.sendMessage(message);
             } catch (IOException e) {
-                logger.error("socket通讯失败，游戏结果信息推送失败",e);
+                logger.error("socket通讯失败，游戏结果信息推送失败:{}",message,e);
             }
         }
     }
