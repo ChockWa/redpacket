@@ -2,7 +2,9 @@ package com.hdh.redpacket.game.service;
 
 import com.alibaba.fastjson.JSON;
 import com.hdh.redpacket.core.exception.SysException;
+import com.hdh.redpacket.core.utils.BeanUtils;
 import com.hdh.redpacket.core.utils.RandomUtils;
+import com.hdh.redpacket.game.dto.GamePlayDto;
 import com.hdh.redpacket.game.exception.GameException;
 import com.hdh.redpacket.game.mapper.GamePlayDetailMapper;
 import com.hdh.redpacket.game.mapper.GamePlayMapper;
@@ -14,9 +16,11 @@ import com.hdh.redpacket.system.constant.PropertyTypeEnum;
 import com.hdh.redpacket.system.model.ConfigDic;
 import com.hdh.redpacket.system.service.ConfigDicService;
 import com.hdh.redpacket.system.socket.WebSocket;
+import com.hdh.redpacket.user.model.User;
 import com.hdh.redpacket.user.model.UserProperty;
 import com.hdh.redpacket.user.service.PropertyLogService;
 import com.hdh.redpacket.user.service.UserPropertyService;
+import com.hdh.redpacket.user.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +62,9 @@ public class GameService {
 
     @Autowired
     private CaculateService caculateService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 获取可投的钻石列表
@@ -144,6 +151,9 @@ public class GameService {
         gamePlay.setTimes(new BigDecimal("0.5"));
         gamePlay.setPlayNo(RandomUtils.getPlayNoByTime());
         gamePlayMapper.insert(gamePlay);
+
+        // 把游戏开始状态推送到前端
+        pushGamePlayMsg(JSON.toJSONString(gamePlay));
     }
 
     /**
@@ -191,7 +201,8 @@ public class GameService {
         // 获得胜出者的用户id
         String winnerUserId = caculateService.getWinner(caculateService.getUserWinProbability(userProperties));
         // 如果用户id为空，则表明这场游戏没有胜出者
-        if(winnerUserId == null){
+        User user = userService.getUserById(winnerUserId);
+        if(user == null){
             logger.info("没有玩家胜出这场游戏");
             gamePlay.setStatus(GameStatusEnum.OVER.getCode());
             gamePlay.setOverTime(new Date());
@@ -225,8 +236,11 @@ public class GameService {
         gamePlay.setOverTime(new Date());
         gamePlayMapper.updateByPlayNoSelective(gamePlay);
 
+        GamePlayDto gamePlayDto = BeanUtils.copyToNewBean(gamePlay,GamePlayDto.class);
+        gamePlayDto.setWinName(user.getName());
+
         // 把游戏结果推送到前端
-        pushGamePlayMsg(JSON.toJSONString(gamePlay));
+        pushGamePlayMsg(JSON.toJSONString(gamePlayDto));
 
     }
 
