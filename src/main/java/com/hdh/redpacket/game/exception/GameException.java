@@ -16,6 +16,15 @@ public class GameException extends BizException {
     /** 钻石不足，请购买 */
     public static final GameException DIAMOND_IS_NOT_ENOUGH = new GameException(12010003,"钻石不足，请购买");
 
+    /** 没有玩家参与这场游戏 */
+    public static final GameException NO_PLAYER_ERROR = new GameException(12010004,"没有玩家参与这场游戏");
+
+    /** 没有玩家胜出 */
+    public static final GameException NO_WINNER_ERROR = new GameException(12010005,"没有玩家胜出");
+
+    /** 没找到进行中游戏场次，游戏场次有误 */
+    public static final GameException PLAYNO_NOTFINDED_ERROR = new GameException(12010006,"没找到进行中游戏场次，游戏场次有误");
+
     protected GameException(int code, String msg) {
         super(code, msg);
     }

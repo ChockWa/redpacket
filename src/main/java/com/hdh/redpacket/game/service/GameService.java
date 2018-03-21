@@ -2,6 +2,7 @@ package com.hdh.redpacket.game.service;
 
 import com.alibaba.fastjson.JSON;
 import com.hdh.redpacket.core.exception.SysException;
+import com.hdh.redpacket.core.model.Result;
 import com.hdh.redpacket.core.utils.BeanUtils;
 import com.hdh.redpacket.core.utils.RandomUtils;
 import com.hdh.redpacket.game.dto.GamePlayDto;
@@ -141,7 +142,7 @@ public class GameService {
     /**
      * 开始游戏定时任务
      */
-    @Scheduled(cron = "0 1 * * * *")
+    @Scheduled(cron = "0 12 * * * *")
     public void startGame(){
         // TODO 判断当前时间是否在允许游戏进行时间段里
         GamePlay gamePlay = new GamePlay();
@@ -153,17 +154,18 @@ public class GameService {
         gamePlayMapper.insert(gamePlay);
 
         // 把游戏开始状态推送到前端
-        pushGamePlayMsg(JSON.toJSONString(gamePlay));
+        pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(gamePlay)));
     }
 
     /**
      * 停止投入定时任务
      */
-    @Scheduled(cron = "0 30 * * * *")
+    @Scheduled(cron = "0 14 * * * *")
     public void stopInputDiamond(){
         GamePlay gamePlay = getCurrentGameMsg();
         if(gamePlay == null){
             logger.error("没找到进行中游戏场次，游戏场次有误");
+            pushGamePlayMsg(JSON.toJSONString(Result.FAIL(GameException.PLAYNO_NOTFINDED_ERROR.getCode(),GameException.PLAYNO_NOTFINDED_ERROR.getMsg())));
             return;
         }
 
@@ -172,13 +174,13 @@ public class GameService {
         gamePlayMapper.updateByPlayNoSelective(gamePlay);
 
         // 把游戏停止投入状态推送到前端
-        pushGamePlayMsg(JSON.toJSONString(gamePlay));
+        pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(gamePlay)));
     }
 
     /**
      * 开奖定时任务
      */
-    @Scheduled(cron = "0 58 * * * *")
+    @Scheduled(cron = "0 16 * * * *")
     @Transactional
     public void openAward(){
         GamePlay gamePlay = getCurrentGameMsg();
@@ -192,6 +194,7 @@ public class GameService {
             gamePlay.setStatus(GameStatusEnum.OVER.getCode());
             gamePlay.setOverTime(new Date());
             gamePlayMapper.updateByPlayNoSelective(gamePlay);
+            pushGamePlayMsg(JSON.toJSONString(Result.FAIL(GameException.NO_PLAYER_ERROR.getCode(),GameException.NO_PLAYER_ERROR.getMsg())));
             return;
         }
 
@@ -209,6 +212,7 @@ public class GameService {
             gamePlay.setWinAmount(BigDecimal.ZERO);
             gamePlay.setWinUserId("0");
             gamePlayMapper.updateByPlayNoSelective(gamePlay);
+            pushGamePlayMsg(JSON.toJSONString(Result.FAIL(GameException.NO_WINNER_ERROR.getCode(),GameException.NO_WINNER_ERROR.getMsg())));
             return;
         }
 
@@ -240,7 +244,7 @@ public class GameService {
         gamePlayDto.setWinName(user.getName());
 
         // 把游戏结果推送到前端
-        pushGamePlayMsg(JSON.toJSONString(gamePlayDto));
+        pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(gamePlayDto)));
 
     }
 

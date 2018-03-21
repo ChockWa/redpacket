@@ -19,7 +19,7 @@ Welcome<br/>
 
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://localhost:8989/websocket");
+        websocket = new WebSocket("ws://localhost:8989/beginGameSocket");
     }
     else {
         alert('Not support websocket')

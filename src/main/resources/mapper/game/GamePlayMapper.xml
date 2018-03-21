@@ -49,27 +49,27 @@
     
     <update id="updateByPlayNoSelective" parameterType="com.hdh.redpacket.game.model.GamePlay">
         update sys_game_play
-        <trim prefix="set" prefixOverrides="and">
+        <trim prefix="set" suffixOverrides=",">
             <if test="totalDiamond != null">
-                and total_diamond = #{totalDiamond}
+                total_diamond = #{totalDiamond},
             </if>
             <if test="winUserId != null">
-                and win_user_id = #{winUserId}
+                win_user_id = #{winUserId},
             </if>
             <if test="status != null">
-                and status = #{status}
+                status = #{status},
             </if>
             <if test="times != null">
-                and times = #{times}
+                times = #{times},
             </if>
             <if test="overInputTime != null">
-                and over_input_time = #{overInputTime}
+                over_input_time = #{overInputTime},
             </if>
             <if test="overTime != null">
-                and over_time = #{overTime}
+                over_time = #{overTime},
             </if>
             <if test="winAmount != null">
-                and win_amount = #{winAmount}
+                win_amount = #{winAmount},
             </if>
         </trim>
         where play_no = #{playNo}
