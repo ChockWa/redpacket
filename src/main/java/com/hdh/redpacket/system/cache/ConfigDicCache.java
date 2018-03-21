@@ -25,7 +25,7 @@ public class ConfigDicCache {
     private static LoadingCache<String,List<ConfigDic>> listConfigItemCache = CacheBuilder
             .newBuilder()
             .maximumSize(1024)
-            .expireAfterWrite(1,TimeUnit.DAYS)
+            .expireAfterWrite(5,TimeUnit.SECONDS)
             .build(new CacheLoader<String, List<ConfigDic>>() {
                 @Override
                 public List<ConfigDic> load(String code) throws Exception {

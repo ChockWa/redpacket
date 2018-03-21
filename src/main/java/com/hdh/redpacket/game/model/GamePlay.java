@@ -27,7 +27,7 @@ public class GamePlay {
     private Integer status;
 
     // 创建时间
-    private Date creatTime;
+    private Date createTime;
 
     // 投入结束时间
     private Date overInputTime;
@@ -94,12 +94,12 @@ public class GamePlay {
         this.status = status;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getOverInputTime() {

@@ -82,7 +82,7 @@ public class GameService {
         // 获取正在投入或者等待开奖的场次信息(正常情况只有一条),多于一条则报错
         List<Integer> status = Arrays.asList(GameStatusEnum.PLAYING.getCode(),GameStatusEnum.WAIT_OPEN.getCode());
         List<GamePlay> gamePlays = gamePlayMapper.selectByStatus(status);
-        if(gamePlays != null && gamePlays.size() > 1){
+        if(gamePlays != null && gamePlays.size() < 1){
             throw SysException.SYS_ERROR;
         }
         return gamePlays.get(0);
@@ -147,7 +147,7 @@ public class GameService {
         GamePlay gamePlay = new GamePlay();
         gamePlay.setTotalDiamond(BigDecimal.ZERO);
         gamePlay.setStatus(GameStatusEnum.PLAYING.getCode());
-        gamePlay.setCreatTime(new Date());
+        gamePlay.setCreateTime(new Date());
         gamePlay.setTimes(new BigDecimal("0.5"));
         gamePlay.setPlayNo(RandomUtils.getPlayNoByTime());
         gamePlayMapper.insert(gamePlay);

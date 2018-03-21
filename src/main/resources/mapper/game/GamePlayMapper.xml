@@ -9,7 +9,7 @@
         <result column="win_amount" property="winAmount" />
         <result column="times" property="times" />
         <result column="status" property="status" />
-        <result column="create_time" property="creatTime" />
+        <result column="create_time" property="createTime" />
         <result column="over_input_time" property="overInputTime" />
         <result column="over_time" property="overTime" />
     </resultMap>
