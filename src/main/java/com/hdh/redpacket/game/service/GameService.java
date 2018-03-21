@@ -142,7 +142,7 @@ public class GameService {
     /**
      * 开始游戏定时任务
      */
-    @Scheduled(cron = "0 12 * * * *")
+    @Scheduled(cron = "0 1 * * * *")
     public void startGame(){
         // TODO 判断当前时间是否在允许游戏进行时间段里
         GamePlay gamePlay = new GamePlay();
@@ -160,7 +160,7 @@ public class GameService {
     /**
      * 停止投入定时任务
      */
-    @Scheduled(cron = "0 14 * * * *")
+    @Scheduled(cron = "0 30 * * * *")
     public void stopInputDiamond(){
         GamePlay gamePlay = getCurrentGameMsg();
         if(gamePlay == null){
@@ -180,7 +180,7 @@ public class GameService {
     /**
      * 开奖定时任务
      */
-    @Scheduled(cron = "0 16 * * * *")
+    @Scheduled(cron = "0 58 * * * *")
     @Transactional
     public void openAward(){
         GamePlay gamePlay = getCurrentGameMsg();
