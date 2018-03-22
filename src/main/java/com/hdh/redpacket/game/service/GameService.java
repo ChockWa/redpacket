@@ -165,7 +165,6 @@ public class GameService {
         GamePlay gamePlay = getCurrentGameMsg();
         if(gamePlay == null){
             logger.error("没找到进行中游戏场次，游戏场次有误");
-            pushGamePlayMsg(JSON.toJSONString(Result.FAIL(GameException.PLAYNO_NOTFINDED_ERROR.getCode(),GameException.PLAYNO_NOTFINDED_ERROR.getMsg())));
             return;
         }
 
