@@ -84,7 +84,7 @@ public class GameService {
         List<Integer> status = Arrays.asList(GameStatusEnum.PLAYING.getCode(),GameStatusEnum.WAIT_OPEN.getCode());
         List<GamePlay> gamePlays = gamePlayMapper.selectByStatus(status);
         if(gamePlays != null && gamePlays.size() < 1){
-            throw SysException.SYS_ERROR;
+            throw GameException.GAME_ISNOT_START;
         }
         return gamePlays.get(0);
     }
