@@ -43,7 +43,7 @@ public class ConfigDicCache {
         } catch (ExecutionException e) {
             logger.error("获取字典列表失败,code:{}",code,e);
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public static ConfigDic getConfigDic(String code){
