@@ -160,7 +160,7 @@ public class GameService {
      */
     public void startGame(){
         List<GamePlay> gamePlays = getPlayByStatus(Arrays.asList(GameStatusEnum.PLAYING.getCode(),GameStatusEnum.WAIT_OPEN.getCode()));
-        if(gamePlays != null || gamePlays.size() > 0){
+        if(gamePlays != null && gamePlays.size() > 0){
             logger.error("有游戏正在进行中");
             pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(gamePlays.get(0))));
             return;
