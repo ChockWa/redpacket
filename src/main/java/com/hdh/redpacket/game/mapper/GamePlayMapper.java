@@ -34,4 +34,6 @@ public interface GamePlayMapper extends BaseMapper<GamePlay> {
      * @return
      */
     List<GamePlay> selectByWinUserId(@Param("winUserId")String winUserId);
+
+    GamePlay selectByOneStatus(Integer status);
 }

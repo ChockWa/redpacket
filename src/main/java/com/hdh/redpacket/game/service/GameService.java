@@ -1,6 +1,7 @@
 package com.hdh.redpacket.game.service;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.hdh.redpacket.core.exception.SysException;
 import com.hdh.redpacket.core.model.Result;
 import com.hdh.redpacket.core.utils.BeanUtils;
@@ -32,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -89,6 +91,20 @@ public class GameService {
         return gamePlays.get(0);
     }
 
+    public GamePlay getPlayByStatus(Integer status){
+        if(status == null){
+            return null;
+        }
+        return gamePlayMapper.selectByOneStatus(status);
+    }
+
+    public List<GamePlay> getPlayByStatus(List<Integer> status){
+        if(status == null || status.size() < 1){
+            return new ArrayList<>();
+        }
+        return gamePlayMapper.selectByStatus(status);
+    }
+
     /**
      * 投入钻石
      * @param playNo
@@ -143,10 +159,10 @@ public class GameService {
      * 开始游戏定时任务
      */
     public void startGame(){
-        GamePlay gamePlay1 = getCurrentGameMsg();
-        if(gamePlay1 != null){
+        List<GamePlay> gamePlays = getPlayByStatus(Arrays.asList(GameStatusEnum.PLAYING.getCode(),GameStatusEnum.WAIT_OPEN.getCode()));
+        if(gamePlays != null || gamePlays.size() > 0){
             logger.error("有游戏正在进行中");
-            pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(gamePlay1)));
+            pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(gamePlays.get(0))));
             return;
         }
         // TODO 判断当前时间是否在允许游戏进行时间段里
@@ -166,7 +182,7 @@ public class GameService {
      * 停止投入定时任务
      */
     public void stopInputDiamond(){
-        GamePlay gamePlay = getCurrentGameMsg();
+        GamePlay gamePlay = getPlayByStatus(GameStatusEnum.PLAYING.getCode());
         if(gamePlay == null){
             logger.error("没找到进行中游戏场次，游戏场次有误");
             return;
@@ -185,7 +201,7 @@ public class GameService {
      */
     @Transactional
     public void openAward(){
-        GamePlay gamePlay = getCurrentGameMsg();
+        GamePlay gamePlay = getPlayByStatus(GameStatusEnum.WAIT_OPEN.getCode());
         if(gamePlay == null){
             logger.error("没找到等待开奖的场次，游戏场次有误");
             return;

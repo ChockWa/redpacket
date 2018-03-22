@@ -90,4 +90,12 @@
         sys_game_play
         where win_user_id = #{winUserId}
     </select>
+
+    <select id="selectByOneStatus" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        sys_game_play
+        where status = #{status}
+    </select>
 </mapper>
