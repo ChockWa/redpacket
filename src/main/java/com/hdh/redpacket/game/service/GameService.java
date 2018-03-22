@@ -146,6 +146,7 @@ public class GameService {
         GamePlay gamePlay1 = getCurrentGameMsg();
         if(gamePlay1 != null){
             logger.error("有游戏正在进行中");
+            pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(gamePlay1)));
             return;
         }
         // TODO 判断当前时间是否在允许游戏进行时间段里
