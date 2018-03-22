@@ -153,7 +153,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>repacket</finalName>
+        <finalName>redpacket</finalName>
     </build>
 
 </project>
