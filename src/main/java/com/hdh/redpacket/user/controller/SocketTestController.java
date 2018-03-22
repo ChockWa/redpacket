@@ -10,6 +10,6 @@ public class SocketTestController {
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     @MustLogin(false)
     public String socketTest(){
-        return "/socketTest";
+        return "socketTest";
     }
 }
