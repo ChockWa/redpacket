@@ -143,6 +143,11 @@ public class GameService {
      * 开始游戏定时任务
      */
     public void startGame(){
+        GamePlay gamePlay1 = getCurrentGameMsg();
+        if(gamePlay1 != null){
+            logger.error("有游戏正在进行中");
+            return;
+        }
         // TODO 判断当前时间是否在允许游戏进行时间段里
         GamePlay gamePlay = new GamePlay();
         gamePlay.setTotalDiamond(BigDecimal.ZERO);
