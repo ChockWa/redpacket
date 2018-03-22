@@ -170,7 +170,7 @@ public class GameService {
         gamePlay.setTotalDiamond(BigDecimal.ZERO);
         gamePlay.setStatus(GameStatusEnum.PLAYING.getCode());
         gamePlay.setCreateTime(new Date());
-        gamePlay.setTimes(new BigDecimal("0.5"));
+        gamePlay.setTimes(new BigDecimal("1"));
         gamePlay.setPlayNo(RandomUtils.getPlayNoByTime());
         gamePlayMapper.insert(gamePlay);
 
@@ -212,7 +212,7 @@ public class GameService {
             gamePlay.setStatus(GameStatusEnum.OVER.getCode());
             gamePlay.setOverTime(new Date());
             gamePlayMapper.updateByPlayNoSelective(gamePlay);
-            pushGamePlayMsg(JSON.toJSONString(Result.FAIL(GameException.NO_PLAYER_ERROR.getCode(),GameException.NO_PLAYER_ERROR.getMsg())));
+            pushGamePlayMsg(JSON.toJSONString(BeanUtils.copyToNewBean(gamePlay,GamePlayDto.class)));
             return;
         }
 
@@ -230,7 +230,7 @@ public class GameService {
             gamePlay.setWinAmount(BigDecimal.ZERO);
             gamePlay.setWinUserId("0");
             gamePlayMapper.updateByPlayNoSelective(gamePlay);
-            pushGamePlayMsg(JSON.toJSONString(Result.FAIL(GameException.NO_WINNER_ERROR.getCode(),GameException.NO_WINNER_ERROR.getMsg())));
+            pushGamePlayMsg(JSON.toJSONString(BeanUtils.copyToNewBean(gamePlay,GamePlayDto.class)));
             return;
         }
 
