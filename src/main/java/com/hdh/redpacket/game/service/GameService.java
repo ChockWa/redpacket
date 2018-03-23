@@ -158,6 +158,7 @@ public class GameService {
     /**
      * 开始游戏定时任务
      */
+    @Transactional
     public void startGame(){
         List<GamePlay> gamePlays = getPlayByStatus(Arrays.asList(GameStatusEnum.PLAYING.getCode(),GameStatusEnum.WAIT_OPEN.getCode()));
         if(gamePlays != null && gamePlays.size() > 0){
@@ -181,6 +182,7 @@ public class GameService {
     /**
      * 停止投入定时任务
      */
+    @Transactional
     public void stopInputDiamond(){
         GamePlay gamePlay = getPlayByStatus(GameStatusEnum.PLAYING.getCode());
         if(gamePlay == null){
