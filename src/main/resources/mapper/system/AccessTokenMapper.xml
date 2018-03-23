@@ -34,6 +34,7 @@
         b.invite_code inviteCode,b.platform
         from sys_access_token a
         inner join sys_user b on a.user_id = b.id
+        where a.access_token = #{accessToken}
     </select>
 
 </mapper>
