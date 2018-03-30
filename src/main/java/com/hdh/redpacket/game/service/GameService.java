@@ -81,14 +81,25 @@ public class GameService {
      * 获取当前游戏场次的信息
      * @return
      */
-    public GamePlay getCurrentGameMsg(){
+    public GamePlayDto getCurrentGameMsg(String userId){
         // 获取正在投入或者等待开奖的场次信息(正常情况只有一条),多于一条则报错
         List<Integer> status = Arrays.asList(GameStatusEnum.PLAYING.getCode(),GameStatusEnum.WAIT_OPEN.getCode());
         List<GamePlay> gamePlays = gamePlayMapper.selectByStatus(status);
         if(gamePlays == null || gamePlays.size() < 1){
             throw GameException.GAME_ISNOT_START;
         }
-        return gamePlays.get(0);
+
+        GamePlayDto gamePlayDto = BeanUtils.copyToNewBean(gamePlays.get(0),GamePlayDto.class);
+
+        // 获取玩家本轮的投入
+        if(StringUtils.isNotBlank(userId)){
+            GamePlayDetail gamePlayDetail = gamePlayDetailMapper.selectByUserIdPlayNo(userId,gamePlayDto.getPlayNo());
+            gamePlayDto.setPlayerDiamond(BigDecimal.ZERO);
+            if(gamePlayDetail != null){
+                gamePlayDto.setPlayerDiamond(gamePlayDetail.getDiamond()==null?BigDecimal.ZERO:gamePlayDetail.getDiamond());
+            }
+        }
+        return gamePlayDto;
     }
 
     public GamePlay getPlayByStatus(Integer status){

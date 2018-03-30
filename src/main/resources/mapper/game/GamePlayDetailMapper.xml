@@ -41,4 +41,12 @@
         from sys_game_play_detail
         where user_id = #{userId}
     </select>
+
+    <select id="selectByUserIdPlayNo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_game_play_detail
+        where user_id = #{userId}
+        and play_no = #{playNo}
+    </select>
 </mapper>

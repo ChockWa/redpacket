@@ -4,6 +4,7 @@ import com.hdh.redpacket.common.service.UserInfo;
 import com.hdh.redpacket.core.annotation.MustLogin;
 import com.hdh.redpacket.core.model.Result;
 import com.hdh.redpacket.core.utils.DictUtils;
+import com.hdh.redpacket.game.dto.GamePlayDto;
 import com.hdh.redpacket.game.model.GamePlay;
 import com.hdh.redpacket.game.service.GameService;
 import com.hdh.redpacket.system.constant.DictEnum;
@@ -39,8 +40,8 @@ public class GameController {
      */
     @RequestMapping(value = "/getCurrentGameMsg")
     public Result getCurrentGameMsg(){
-        GamePlay gamePlay = gameService.getCurrentGameMsg();
-        return Result.SUCCESS().setData(gamePlay);
+        GamePlayDto gamePlayDto = gameService.getCurrentGameMsg(UserInfo.getUser()==null?null:UserInfo.getUser().getId());
+        return Result.SUCCESS().setData(gamePlayDto);
     }
 
     /**
