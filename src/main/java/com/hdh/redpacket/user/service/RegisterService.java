@@ -70,6 +70,7 @@ public class RegisterService {
 
         // 初始化用户属性
         initUserProperty(newUser.getId());
+
     }
 
     /**
