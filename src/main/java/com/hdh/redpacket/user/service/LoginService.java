@@ -50,7 +50,7 @@ public class LoginService {
             user = userMapper.getByName(loginDto.getAccount());
         }
 
-        if(user == null){
+        if(user != null){
             throw UserException.USER_ISEXIST_ERROR;
         }else{
             if(1 != user.getState()){
