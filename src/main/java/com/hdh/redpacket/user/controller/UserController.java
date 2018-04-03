@@ -16,6 +16,7 @@ import com.hdh.redpacket.user.model.User;
 import com.hdh.redpacket.user.service.LoginService;
 import com.hdh.redpacket.user.service.RegisterService;
 import com.hdh.redpacket.user.service.UserPropertyService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +59,16 @@ public class UserController {
     @SecurityAccess(true)
     public Result register(RegisterDto registerDto){
         registerService.register(registerDto);
-        return Result.SUCCESS();
+
+        // 登录
+        LoginDto loginDto = new LoginDto();
+        loginDto.setPassword(registerDto.getPassword());
+        if(StringUtils.isBlank(registerDto.getEmail())){
+            loginDto.setAccount(registerDto.getName());
+        }else{
+            loginDto.setAccount(registerDto.getEmail());
+        }
+        return Result.SUCCESS().setData(loginService.login(loginDto));
     }
 
     /**
