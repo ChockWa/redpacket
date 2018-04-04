@@ -43,7 +43,7 @@
         <!--<appender-ref ref="cn.iautos.manager" />-->
         <!--<appender-ref ref="com.ibatis" />-->
         <!--<appender-ref ref="com.ibatis" />-->
-        <!--<appender-ref ref="FILE"></appender-ref>-->
+        <appender-ref ref="FILE"></appender-ref>
     </root>
     </configuration>
     <!--<configuration>-->
