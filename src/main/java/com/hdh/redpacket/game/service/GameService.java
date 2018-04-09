@@ -292,6 +292,7 @@ public class GameService {
         CopyOnWriteArraySet<WebSocket> webSockets = WebSocket.webSocketSet;
         for(WebSocket webSocket : webSockets){
             try {
+                logger.info("后台往前端推送的消息：{}",message);
                 webSocket.sendMessage(message);
             } catch (IOException e) {
                 logger.error("socket通讯失败，游戏结果信息推送失败:{}",message,e);
