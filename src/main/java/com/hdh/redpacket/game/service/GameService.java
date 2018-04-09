@@ -128,6 +128,15 @@ public class GameService {
             throw GameException.PARAMS_ERROR;
         }
 
+        GamePlay gamePlay = gamePlayMapper.selectByPlayNo(playNo);
+        if(gamePlay == null){
+            throw SysException.SYS_ERROR;
+        }
+        // 判断游戏是否处于可投注阶段
+        if(GameStatusEnum.PLAYING.getCode() != gamePlay.getStatus()){
+            throw GameException.ADD_DIAMOND_NOTALLOW_NOW;
+        }
+
         ConfigDic configDic = configDicService.getDicById(diamondsId);
         if(configDic == null){
             throw SysException.SYS_ERROR;
@@ -137,11 +146,6 @@ public class GameService {
         UserProperty userProperty = userPropertyService.getUserProperties(userId);
         if(userProperty == null || userProperty.getDiamond() < Integer.valueOf(configDic.getDicValue())){
             throw GameException.DIAMOND_IS_NOT_ENOUGH;
-        }
-
-        GamePlay gamePlay = gamePlayMapper.selectByPlayNo(playNo);
-        if(gamePlay == null){
-            throw SysException.SYS_ERROR;
         }
 
         // 插入钻石减少的记录
@@ -224,8 +228,13 @@ public class GameService {
             logger.info("没有玩家参与这场游戏");
             gamePlay.setStatus(GameStatusEnum.OVER.getCode());
             gamePlay.setOverTime(new Date());
+            gamePlay.setWinUserId("1");
             gamePlayMapper.updateByPlayNoSelective(gamePlay);
-            pushGamePlayMsg(JSON.toJSONString(BeanUtils.copyToNewBean(gamePlay,GamePlayDto.class)));
+            GamePlayDto gamePlayDto = BeanUtils.copyToNewBean(gamePlay,GamePlayDto.class);
+            // 没人参加游戏，制作假数据
+            gamePlayDto.setWinName("王八蛋");
+            gamePlayDto.setPlayerDiamond(new BigDecimal(1000));
+            pushGamePlayMsg(JSON.toJSONString(gamePlayDto));
             return;
         }
 

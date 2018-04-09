@@ -25,6 +25,8 @@ public class GameException extends BizException {
     /** 没找到进行中游戏场次，游戏场次有误 */
     public static final GameException PLAYNO_NOTFINDED_ERROR = new GameException(12010006,"没找到进行中游戏场次，游戏场次有误");
 
+    /** 游戏不处于可投注阶段 */
+    public static final GameException ADD_DIAMOND_NOTALLOW_NOW = new GameException(12010007,"游戏不处于可投注阶段");
     protected GameException(int code, String msg) {
         super(code, msg);
     }
