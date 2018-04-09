@@ -191,7 +191,7 @@ public class GameService {
         gamePlayMapper.insert(gamePlay);
 
         // 把游戏开始状态推送到前端
-        pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(gamePlay)));
+        pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(BeanUtils.copyToNewBean(gamePlay,GamePlayDto.class))));
     }
 
     /**
@@ -210,7 +210,7 @@ public class GameService {
         gamePlayMapper.updateByPlayNoSelective(gamePlay);
 
         // 把游戏停止投入状态推送到前端
-        pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(gamePlay)));
+        pushGamePlayMsg(JSON.toJSONString(Result.SUCCESS().setData(BeanUtils.copyToNewBean(gamePlay,GamePlayDto.class))));
     }
 
     /**
