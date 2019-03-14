@@ -36,9 +36,9 @@ public class CommonInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         // 处理request的参数
-        Map<String,Object> dataMap = paramsService.dueRequestParams(httpServletRequest);
+//        Map<String,Object> dataMap = paramsService.dueRequestParams(httpServletRequest);
         // 安全校验
-        invokeService.checkSaftHandle(httpServletRequest.getRequestURI(),dataMap);
+//        invokeService.checkSaftHandle(httpServletRequest.getRequestURI(),dataMap);
         return true;
     }
 
@@ -50,7 +50,7 @@ public class CommonInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
         // 记录请求日志
-        writeRequestLog(httpServletRequest);
+//        writeRequestLog(httpServletRequest);
     }
 
     /**

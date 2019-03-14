@@ -19,7 +19,8 @@ Welcome<br/>
 
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://185.117.72.246:8989/beginGameSocket");
+        console.log(window.location.host)
+        websocket = new WebSocket("ws://"+window.location.host+"/beginGameSocket");
     }
     else {
         alert('Not support websocket')
